@@ -29,7 +29,7 @@ const LocationUpdater = ({ position }) => {
 };
 
 const Mapa = () => {
-  const [position, setPosition] = useState([51.505, -0.09]); // Posição inicial (Londres, exemplo)
+  const [position, setPosition] = useState([-23.5505, -46.6333]); // Posição inicial (São Paulo)
   const [hasLocation, setHasLocation] = useState(false);
 
   const handleGeolocation = () => {
@@ -73,14 +73,15 @@ const Mapa = () => {
       </div>
 
       {/* Botão abaixo do mapa */}
-      <div className="flex justify-center py-4">
-        <button
-          onClick={handleGeolocation}
-          className="bg-blue-500 text-white py-2 px-4 rounded"
-        >
-          Obter Localização
-        </button>
-      </div>
+      <div className="flex justify-center py-4 relative z-20">
+  <button
+    onClick={handleGeolocation}
+    className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded z-20 cursor-pointer"
+  >
+    Obter Localização
+  </button>
+</div>
+
     </div>
   );
 };
