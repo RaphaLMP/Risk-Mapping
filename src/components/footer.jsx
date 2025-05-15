@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-gray-800 text-white py-6 z-50">
+    <footer className="w-full bg-gray-800 text-white py-6 mt-auto">
       <div className="container mx-auto text-center">
         <p>&copy; 2025 Risk Mapping. Todos os direitos reservados.</p>
         <div className="mt-4 space-x-6">
@@ -36,7 +36,7 @@ const Footer = () => {
             rel="noopener noreferrer"
             className="text-gray-400 hover:text-white"
           >
-            LinkedIn
+            Linkedin
           </a>
         </div>
       </div>
