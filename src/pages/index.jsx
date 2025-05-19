@@ -17,30 +17,7 @@ const App = () => {
           </Layout>
         }
       />
-      <Route
-        path="/mapa"
-        element={
-          <Layout>
-            <h1>Mapa</h1>
-          </Layout>
-        }
-      />
-      <Route
-        path="/services"
-        element={
-          <Layout>
-            <h1>Services Page</h1>
-          </Layout>
-        }
-      />
-      <Route
-        path="/contact"
-        element={
-          <Layout>
-            <h1>Contact Page</h1>
-          </Layout>
-        }
-      />
+          
       <Route
         path="/sobre"
         element={

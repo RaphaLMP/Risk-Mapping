@@ -4,15 +4,20 @@ import Footer from './components/footer';
 
 const Layout = ({ children }) => {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
+      {/* NavBar sempre no topo */}
       <NavBar />
-      <div className="flex flex-col min-h-screen mt-4">
-        <div className="container mx-auto p-4 flex-grow">
+
+      {/* Conteúdo central com responsividade */}
+      <main className="flex-grow w-full px-4 sm:px-6 lg:px-8 mt-4">
+        <div className="max-w-screen-xl mx-auto w-full">
           {children}
         </div>
-        <Footer />
-      </div>
-    </>
+      </main>
+
+      {/* Footer sempre no final */}
+      <Footer />
+    </div>
   );
 };
 
