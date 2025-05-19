@@ -19,10 +19,22 @@ const NavBar = ({ darkMode, toggleDarkMode }) => {
         {/* Links desktop */}
         <ul className="menu-links flex flex-row items-center space-x-8 font-medium text-gray-900 dark:text-white">
           <li>
-            <Link to="/contato" className="hover:text-blue-700 dark:hover:text-blue-400">Contato</Link>
+            <Link
+              to="/contato"
+              className="pointer-events-none cursor-not-allowed opacity-50"
+              tabIndex={-1} // opcional, para não focar
+            >
+              Contato
+            </Link>
           </li>
           <li>
-            <Link to="/teste" className="hover:text-blue-700 dark:hover:text-blue-400">Teste</Link>
+            <Link
+              to="/teste"
+              className="pointer-events-none cursor-not-allowed opacity-50"
+              tabIndex={-1}
+            >
+              Teste
+            </Link>
           </li>
         </ul>
 
@@ -71,11 +83,11 @@ const NavBar = ({ darkMode, toggleDarkMode }) => {
                 <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
               </svg>
             )}
-          </button>         
+          </button>
         </div>
       </div>
     </nav>
-    
+
   );
 };
 

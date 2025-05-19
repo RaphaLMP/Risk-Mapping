@@ -27,35 +27,35 @@ const Layout = ({ children }) => {
   const teamMembersData = [
     {
       name: 'Beatriz Claudino',
-      role: 'Engenharia de Software',
+      role: 'Front End, Melhorias',
       imageSrc: '/images/beatriz.jpg',
       linkedinUrl: 'linkedin.com/in/beatrizclaudino1',
       githubUrl: 'https://github.com/BeatrizClaudino',
     },
     {
       name: 'Daniel Costa',
-      role: 'Engenharia de Software',
+      role: 'Front End, Configurações',
       imageSrc: '/images/daniel.jpg',
       linkedinUrl: 'linkedin.com/in/daniel-costa-1b3375232',
       githubUrl: 'https://github.com/Ciberbott',
     },
     {
       name: 'Maikon Bryan',
-      role: 'Engenharia de Software',
+      role: 'Front End',
       imageSrc: '/images/maikon.jpg',
       linkedinUrl: 'linkedin.com/in/maikonbryan',
       githubUrl: 'https://github.com/MaikonMagie',
     },
     {
       name: 'Raphael Martins',
-      role: 'Engenharia de Software',
+      role: 'Front End, Video e Projeto',
       imageSrc: '/images/raphael.jpg',
       linkedinUrl: 'linkedin.com/in/raphael-martins-12761921b',
       githubUrl: 'https://github.com/RaphaLMP',
     },
     {
       name: 'Vinicius Vasconcelos',
-      role: 'Engenharia de Software',
+      role: 'Front End',
       imageSrc: '/images/vinicius.jpg',
       linkedinUrl: '#',
       githubUrl: 'https://github.com/vnk1912',
@@ -124,8 +124,26 @@ const Layout = ({ children }) => {
 
   const LiveMapSection = () => (
     <section className="bg-white py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6 mb-8">
+
+      {/* Seção de Tecnologias Utilizadas */}
+      <div className="mx-auto mb-20 max-w-screen-md">
+        <h2 className="mb-4 text-3xl font-bold text-gray-900">
+          Tecnologias Utilizadas
+        </h2>
+        <p className="text-gray-600 font-light mb-6">
+          Este projeto foi desenvolvido com as seguintes tecnologias:
+        </p>
+        <ul className="flex flex-wrap justify-center gap-4 text-sm font-medium">
+          <li className="bg-blue-100 text-blue-700 px-4 py-2 rounded-lg shadow-sm">React</li>
+          <li className="bg-cyan-100 text-cyan-700 px-4 py-2 rounded-lg shadow-sm">Tailwind CSS</li>
+          <li className="bg-purple-100 text-purple-700 px-4 py-2 rounded-lg shadow-sm">Flowbite</li>
+          <li className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-lg shadow-sm">JavaScript</li>
+        </ul>
+      </div>
+
+      {/* Seção principal */}
       <div className="mx-auto mb-8 max-w-screen-sm lg:mb-16">
-        <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900">
+        <h2 className="mt-8 mb-4 text-3xl font-bold text-gray-900">
           Um mapa vivo feito por todos
         </h2>
         <p className="font-light text-gray-500 sm:text-xl text-justify">
@@ -140,14 +158,14 @@ const Layout = ({ children }) => {
           <br />
           Nosso objetivo é criar uma rede de alerta cidadã, onde a informação circula rapidamente e ajuda a prevenir transtornos, acidentes e prejuízos. Com a força da colaboração, queremos transformar o modo como lidamos com as chuvas e os impactos urbanos, promovendo segurança, consciência e solidariedade.
         </p>
+
+        {/* Seção de Vídeo */}
         <section>
-          <h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 mt-8">
+          <h2 className="mt-8 mb-4 text-3xl font-bold text-gray-900">
             Veja o vídeo
           </h2>
           <YouTubeVideo videoId={youtubeVideoId} />
-
         </section>
-
       </div>
     </section>
   );
