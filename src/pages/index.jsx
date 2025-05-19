@@ -4,8 +4,6 @@ import { Routes, Route } from 'react-router-dom';
 
 import Layout from "../layout";
 import Mapa from '../components/mapa';
-import Sobre from './sobre';
-
 
 const App = () => {
   return (
@@ -19,14 +17,6 @@ const App = () => {
         }
       />
           
-      <Route
-        path="/sobre"
-        element={
-          <Layout>
-            <Sobre />
-          </Layout>
-        }
-      />
     </Routes>
   );
 };

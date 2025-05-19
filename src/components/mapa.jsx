@@ -26,7 +26,7 @@ const riscoIcons = {
     popupAnchor: [1, -34],
     shadowUrl: markerShadow,
     shadowSize: [41, 41],
-    className: 'marker-alagamento' // para aplicar cor via CSS
+    className: 'marker-alagamento'
   }),
   deslizamento: new L.Icon({
     iconUrl: markerIcon,
@@ -78,14 +78,12 @@ const Mapa = () => {
   const [input, setInput] = useState('');
   const bottomRef = useRef();
 
-  // Estado do modal e seleção do risco
+
   const [modalVisible, setModalVisible] = useState(false);
   const [riscoSelecionado, setRiscoSelecionado] = useState('');
-  
-  // Estado para controlar o modo do botão principal
-  const [botaoModo, setBotaoModo] = useState('visualizar'); // 'visualizar' ou 'marcar'
-  
-  // Dados de simulação de outras ocorrências no mapa
+
+  const [botaoModo, setBotaoModo] = useState('visualizar');
+
   const [outrasOcorrencias, setOutrasOcorrencias] = useState([
     {
       id: 1,
@@ -118,7 +116,7 @@ const Mapa = () => {
     {
       id: 101,
       tipo: 'alagamento',
-      posicao: [-23.5505, -46.6383], // próximo à posição padrão
+      posicao: [-23.5505, -46.6383],
       descricao: 'Simulação de Alagamento - Nível Crítico',
       dataHora: '18/05/2025 16:30',
       raio: 250,
@@ -127,7 +125,7 @@ const Mapa = () => {
     {
       id: 102,
       tipo: 'deslizamento',
-      posicao: [-23.5455, -46.6283], // próximo à posição padrão
+      posicao: [-23.5455, -46.6283],
       descricao: 'Simulação de Deslizamento - Cenário Projetado',
       dataHora: '19/05/2025 08:00',
       raio: 180,
@@ -135,7 +133,6 @@ const Mapa = () => {
     }
   ]);
 
-  // Função para obter a localização atual do usuário
   const obterLocalizacao = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -149,8 +146,7 @@ const Mapa = () => {
           const roundedLng = longitude.toFixed(3);
           const roomId = `${roundedLat}-${roundedLng}`;
           setLocalRoomId(roomId);
-          
-          // Inicializa o chat local para essa posição se não existir
+
           const roomKey = `local-${roomId}`;
           setMessages(prev => {
             if (!prev[roomKey]) {
@@ -169,14 +165,11 @@ const Mapa = () => {
             }
             return prev;
           });
-          
-          // Após visualizar a localização, muda para o modo marcar
+
           setBotaoModo('marcar');
           
-          // Alterna automaticamente para o chat local
           setChatRoom(roomKey);
-          
-          // Gerar simulações locais dinamicamente com base na localização
+
           const novasSimulacoes = [
             {
               id: Math.floor(Math.random() * 1000) + 200,
@@ -207,23 +200,18 @@ const Mapa = () => {
     }
   };
 
-  // Quando o usuário clica no botão principal
   const handleBotaoPrincipal = () => {
     if (botaoModo === 'marcar') {
-      // Se estiver no modo marcar, mostra o modal para marcar risco
       setModalVisible(true);
     } else {
-      // Se estiver no modo visualizar, obtém a localização
       obterLocalizacao();
     }
   };
 
-  // Quando o usuário confirma o risco no modal
   const handleModalOk = () => {
-    if (!riscoSelecionado) return; // evita confirmar sem escolher
+    if (!riscoSelecionado) return;
     setModalVisible(false);
     
-    // Obtém a localização para marcar o risco
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         ({ coords }) => {
@@ -237,9 +225,8 @@ const Mapa = () => {
           const roomId = `${roundedLat}-${roundedLng}`;
           setLocalRoomId(roomId);
           
-          // Adicionar nova ocorrência à lista
           const novaOcorrencia = {
-            id: outrasOcorrencias.length + 10, // ID único
+            id: outrasOcorrencias.length + 10,
             tipo: riscoSelecionado,
             posicao: newPosition,
             descricao: `${riscoSelecionado.charAt(0).toUpperCase() + riscoSelecionado.slice(1)} reportado por usuário`,
@@ -249,7 +236,6 @@ const Mapa = () => {
           
           setOutrasOcorrencias(prev => [...prev, novaOcorrencia]);
           
-          // Inicializa o chat local para essa posição se não existir
           const roomKey = `local-${roomId}`;
           setMessages(prev => {
             if (!prev[roomKey]) {
@@ -269,16 +255,12 @@ const Mapa = () => {
             return prev;
           });
           
-          // Alterna automaticamente para o chat local
           setChatRoom(roomKey);
-          
-          // Após marcar localização, altera o modo do botão para visualizar
+
           setBotaoModo('visualizar');
           
-          // Gerar simulações locais dinamicamente com base na localização e no tipo de risco
           const novasSimulacoes = [];
-          
-          // Gerar simulação específica baseada no tipo de risco reportado
+
           if (riscoSelecionado === 'alagamento') {
             novasSimulacoes.push({
               id: Math.floor(Math.random() * 1000) + 200,
@@ -319,7 +301,6 @@ const Mapa = () => {
       alert("Geolocalização não é suportada.");
     }
 
-    // Reseta a seleção do risco pra próxima vez
     setRiscoSelecionado('');
   };
 
@@ -347,14 +328,12 @@ const Mapa = () => {
     setInput('');
   };
   
-  // Função para mudar para o chat local de outra ocorrência
   const selecionarOcorrencia = (ocorrencia) => {
     const lat = ocorrencia.posicao[0].toFixed(3);
     const lng = ocorrencia.posicao[1].toFixed(3);
     const roomId = `${lat}-${lng}`;
     setLocalRoomId(roomId);
     
-    // Verifica se esse chat local já existe, senão inicializa
     const roomKey = `local-${roomId}`;
     setMessages(prev => {
       if (!prev[roomKey]) {
@@ -373,7 +352,6 @@ const Mapa = () => {
     setPosition(ocorrencia.posicao);
     setHasLocation(true);
     
-    // Após selecionar ocorrência, altera o modo do botão para visualizar
     setBotaoModo('visualizar');
   };
 

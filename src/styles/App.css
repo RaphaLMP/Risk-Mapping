@@ -2,6 +2,30 @@
   z-index: 0 !important;
 }
 
+/* NavBar.css */
+
+/* ≤500px: mostra dropdown, esconde links */
+@media (max-width: 500px) {
+  .menu-links {
+    display: none !important;
+  }
+  .menu-dropdown {
+    display: block !important;
+  }
+}
+
+/* ≥501px: mostra links, esconde dropdown */
+@media (min-width: 501px) {
+  .menu-links {
+    display: flex !important;
+  }
+  .menu-dropdown {
+    display: none !important;
+  }
+}
+
+
+
 /* Responsividade para mobile do container do mapa e sidebar */
 @media (max-width: 768px) {
   /* Container principal flex-row vira flex-col */
@@ -40,4 +64,38 @@
     grid-template-columns: 1fr !important;
     gap: 1rem !important;
   }
+}
+
+/* Dark mode ativado adicionando classe .dark no html */
+
+html.dark body {
+  background-color: #121212 !important;
+  color: #eee !important;
+}
+
+/* Exemplo para elementos comuns, ajuste conforme necessário */
+
+.dark .leaflet-container {
+  background-color: #1e1e1e !important;
+  border-color: #333 !important;
+}
+
+.dark a, 
+.dark button, 
+.dark input, 
+.dark select, 
+.dark textarea {
+  background-color: #222 !important;
+  color: #ddd !important;
+  border-color: #444 !important;
+}
+
+/* Ajuste geral para links no dark mode */
+.dark a {
+  color: #66aaff !important;
+}
+
+/* Caso tenha algum container principal */
+.dark .px-4.py-6 {
+  background-color: #181818 !important;
 }
