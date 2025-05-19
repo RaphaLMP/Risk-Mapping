@@ -1,42 +1,43 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.leaflet-container {
+  z-index: 0 !important;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+/* Responsividade para mobile do container do mapa e sidebar */
+@media (max-width: 768px) {
+  /* Container principal flex-row vira flex-col */
+  .px-4.py-6 > .flex.flex-row {
+    flex-direction: column !important;
+    height: auto !important;
+    gap: 1rem !important;
   }
-  to {
-    transform: rotate(360deg);
+
+  /* Div do mapa ocupa 100% da largura e altura ajustável */
+  .px-4.py-6 > .flex.flex-row > div.w-\[70\%\] {
+    width: 100% !important;
+    height: 50vh !important;
+    min-height: 300px !important;
+    border-radius: 0.5rem !important;
+    overflow: hidden !important;
   }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+  /* Sidebar ocupa 100% largura abaixo do mapa */
+  .px-4.py-6 > .flex.flex-row > div.w-\[30\%\] {
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    border-radius: 0.5rem !important;
+    padding: 1rem !important;
   }
-}
 
-.card {
-  padding: 2em;
-}
+  /* Ocorrências Recentes e Simulações Ativas ocupam 100% da largura do container e ficam uma abaixo da outra */
+  .mt-4.w-\[70\%\] {
+    width: 100% !important;
+    margin-top: 1rem !important;
+  }
 
-.read-the-docs {
-  color: #888;
+  /* Forçar as grids internas das listas ficarem em uma coluna para mobile */
+  .mt-4.w-\[70\%\] > .grid.grid-cols-3 {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
 }
