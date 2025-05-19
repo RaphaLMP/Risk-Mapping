@@ -158,6 +158,11 @@ const Layout = ({ children }) => {
           <br />
           Nosso objetivo é criar uma rede de alerta cidadã, onde a informação circula rapidamente e ajuda a prevenir transtornos, acidentes e prejuízos. Com a força da colaboração, queremos transformar o modo como lidamos com as chuvas e os impactos urbanos, promovendo segurança, consciência e solidariedade.
         </p>
+        <div>
+          <div>
+            <img className="sm:w-24 md:w-40 lg:w-40" src="/images/fluxo.svg" alt="" />
+          </div>
+        </div>
 
         {/* Seção de Vídeo */}
         <section>
