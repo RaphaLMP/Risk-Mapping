@@ -96,7 +96,7 @@ const Layout = ({ children }) => {
       <div className="relative w-1/2" style={{ paddingTop: '28.125%' }}>
         <iframe
           className="absolute top-0 left-0 w-full h-full"
-          src="https://www.youtube.com/embed/j5P9FHiBVNo?start=112"
+           src="https://www.youtube.com/embed/2l_Y9KzZIgU"
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
