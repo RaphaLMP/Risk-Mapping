@@ -447,13 +447,12 @@ const Layout = ({ children }) => {
           {children}
         </div>
       </main>
+      <TeamSection members={teamMembersData}/>
 
       <LiveMapSection 
         technologies={technologies} 
         youtubeVideoId={youtubeVideoId} 
       />
-
-      <TeamSection members={teamMembersData} />
 
       <ScrollToTopButton />
 
