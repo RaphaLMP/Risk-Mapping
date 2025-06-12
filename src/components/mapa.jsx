@@ -5,7 +5,6 @@ import {
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-// Ícones do Leaflet
 import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png';
 import markerIcon from 'leaflet/dist/images/marker-icon.png';
 import markerShadow from 'leaflet/dist/images/marker-shadow.png';
@@ -17,7 +16,6 @@ L.Icon.Default.mergeOptions({
   shadowUrl: markerShadow,
 });
 
-// Criar ícones personalizados por tipo de risco
 const riscoIcons = {
   alagamento: new L.Icon({
     iconUrl: markerIcon,
@@ -48,14 +46,12 @@ const riscoIcons = {
   })
 };
 
-// Cores para os círculos de área
 const riscoCores = {
   alagamento: { color: 'blue', fillColor: 'blue', fillOpacity: 0.2 },
   deslizamento: { color: 'brown', fillColor: 'brown', fillOpacity: 0.2 },
   incendio: { color: 'red', fillColor: 'red', fillOpacity: 0.2 }
 };
 
-// Atualiza o centro do mapa
 const LocationUpdater = ({ position }) => {
   const map = useMap();
   useEffect(() => {
@@ -462,8 +458,8 @@ const Mapa = () => {
                   radius={simulacao.raio}
                   pathOptions={{
                     ...riscoCores[simulacao.tipo],
-                    dashArray: '5, 10', // Linha pontilhada para indicar simulação
-                    fillOpacity: 0.15  // Transparência diferente para simulações
+                    dashArray: '5, 10', 
+                    fillOpacity: 0.15
                   }}
                 />
               </React.Fragment>
