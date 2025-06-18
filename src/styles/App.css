@@ -9,6 +9,7 @@
   .menu-links {
     display: none !important;
   }
+
   .menu-dropdown {
     display: block !important;
   }
@@ -19,24 +20,39 @@
   .menu-links {
     display: flex !important;
   }
+
   .menu-dropdown {
     display: none !important;
   }
 }
 
+html {
+  scroll-behavior: auto;
+}
 
+/* Força posição inicial */
+html,
+body {
+  scroll-behavior: auto !important;
+}
+
+/* Apenas para transições suaves quando necessário */
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
 
 /* Responsividade para mobile do container do mapa e sidebar */
 @media (max-width: 768px) {
+
   /* Container principal flex-row vira flex-col */
-  .px-4.py-6 > .flex.flex-row {
+  .px-4.py-6>.flex.flex-row {
     flex-direction: column !important;
     height: auto !important;
     gap: 1rem !important;
   }
 
   /* Div do mapa ocupa 100% da largura e altura ajustável */
-  .px-4.py-6 > .flex.flex-row > div.w-\[70\%\] {
+  .px-4.py-6>.flex.flex-row>div.w-\[70\%\] {
     width: 100% !important;
     height: 50vh !important;
     min-height: 300px !important;
@@ -45,7 +61,7 @@
   }
 
   /* Sidebar ocupa 100% largura abaixo do mapa */
-  .px-4.py-6 > .flex.flex-row > div.w-\[30\%\] {
+  .px-4.py-6>.flex.flex-row>div.w-\[30\%\] {
     width: 100% !important;
     height: auto !important;
     max-height: none !important;
@@ -60,7 +76,7 @@
   }
 
   /* Forçar as grids internas das listas ficarem em uma coluna para mobile */
-  .mt-4.w-\[70\%\] > .grid.grid-cols-3 {
+  .mt-4.w-\[70\%\]>.grid.grid-cols-3 {
     grid-template-columns: 1fr !important;
     gap: 1rem !important;
   }
@@ -80,10 +96,10 @@ html.dark body {
   border-color: #333 !important;
 }
 
-.dark a, 
-.dark button, 
-.dark input, 
-.dark select, 
+.dark a,
+.dark button,
+.dark input,
+.dark select,
 .dark textarea {
   background-color: #222 !important;
   color: #ddd !important;

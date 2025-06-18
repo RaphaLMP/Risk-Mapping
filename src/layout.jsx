@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useMemo } from 'react';
 import NavBar from "./components/navbar";
 import Footer from './components/footer';
@@ -248,6 +247,34 @@ const useDarkReaderMode = () => {
 
 const Layout = ({ children }) => {
   const { darkMode, toggleDarkMode } = useDarkReaderMode();
+
+  // 🚀 CORREÇÃO PARA O SCROLL AUTOMÁTICO AO DAR F5
+  useEffect(() => {
+    // Desabilita restauração automática do scroll do navegador
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
+    // Função para forçar scroll ao topo
+    const scrollToTop = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
+    // Executa imediatamente
+    scrollToTop();
+
+    // Executa novamente após renderização para garantir
+    const timer1 = setTimeout(scrollToTop, 0);
+    const timer2 = setTimeout(scrollToTop, 100);
+
+    // Cleanup
+    return () => {
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+    };
+  }, []); // Array vazio = executa apenas uma vez quando o Layout monta
 
   return (
     <div className="flex flex-col min-h-screen bg-white text-gray-900">
