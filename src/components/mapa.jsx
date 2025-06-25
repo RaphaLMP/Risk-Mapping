@@ -351,11 +351,6 @@ const Mapa = () => {
     setBotaoModo('visualizar');
   };
 
-  useEffect(() => {
-    if (bottomRef.current) {
-      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, [messages, chatRoom]);
 
   return (
     <div className="px-4 py-6">
