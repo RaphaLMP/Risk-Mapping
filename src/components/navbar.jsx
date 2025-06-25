@@ -158,7 +158,8 @@ const NavBar = ({ darkMode, toggleDarkMode }) => {
                 border: `2px solid ${darkMode ? '#4b5563' : '#d1d5db'}`,
                 backgroundColor: darkMode ? '#374151' : '#f3f4f6',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease'
+                transition: 'all 0.2s ease',
+                outline: 'none'
               }}
               onMouseOver={(e) => {
                 e.target.style.backgroundColor = darkMode ? '#4b5563' : '#e5e7eb';
@@ -170,11 +171,11 @@ const NavBar = ({ darkMode, toggleDarkMode }) => {
               }}
             >
               {darkMode ? (
-                <svg style={{ height: '20px', width: '20px', color: '#6b7280' }} fill="currentColor" viewBox="0 0 24 24">
+                <svg style={{ height: '20px', width: '20px', color: '#6b7280', pointerEvents: 'none' }} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z" />
                 </svg>
               ) : (
-                <svg style={{ height: '20px', width: '20px', color: '#f59e0b' }} fill="currentColor" viewBox="0 0 24 24">
+                <svg style={{ height: '20px', width: '20px', color: '#f59e0b', pointerEvents: 'none' }} fill="currentColor" viewBox="0 0 24 24">
                   <path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
                 </svg>
               )}
