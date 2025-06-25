@@ -63,8 +63,10 @@ const LocationUpdater = ({ position }) => {
 const Mapa = () => {
   const [position, setPosition] = useState([-23.5505, -46.6333]); // São Paulo padrão
   const [hasLocation, setHasLocation] = useState(false);
+  const [minhaOcorrencia, setMinhaOcorrencia] = useState(null); // Para marcar onde EU marquei minha ocorrência
   const [chatRoom, setChatRoom] = useState('geral');
   const [localRoomId, setLocalRoomId] = useState('');
+  const [filtroTipo, setFiltroTipo] = useState('todos'); // Novo estado para filtro
   const [messages, setMessages] = useState({
     'geral': [
       { hora: '10:15', texto: 'Bem-vindo ao chat geral!' },
@@ -73,7 +75,6 @@ const Mapa = () => {
   });
   const [input, setInput] = useState('');
   const bottomRef = useRef();
-
 
   const [modalVisible, setModalVisible] = useState(false);
   const [riscoSelecionado, setRiscoSelecionado] = useState('');
@@ -129,6 +130,12 @@ const Mapa = () => {
     }
   ]);
 
+  // Função para filtrar ocorrências baseada no filtro selecionado
+  const filtrarOcorrencias = (ocorrencias) => {
+    if (filtroTipo === 'todos') return ocorrencias;
+    return ocorrencias.filter(ocorrencia => ocorrencia.tipo === filtroTipo);
+  };
+
   const obterLocalizacao = () => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -163,7 +170,6 @@ const Mapa = () => {
           });
 
           setBotaoModo('marcar');
-          
           setChatRoom(roomKey);
 
           const novasSimulacoes = [
@@ -215,6 +221,12 @@ const Mapa = () => {
           const newPosition = [latitude, longitude];
           setPosition(newPosition);
           setHasLocation(true);
+          
+          // IMPORTANTE: Marcar onde EU criei minha ocorrência
+          setMinhaOcorrencia({
+            posicao: newPosition,
+            tipo: riscoSelecionado
+          });
 
           const roundedLat = latitude.toFixed(3);
           const roundedLng = longitude.toFixed(3);
@@ -227,7 +239,8 @@ const Mapa = () => {
             posicao: newPosition,
             descricao: `${riscoSelecionado.charAt(0).toUpperCase() + riscoSelecionado.slice(1)} reportado por usuário`,
             dataHora: new Date().toLocaleString('pt-BR'),
-            raio: 300
+            raio: 300,
+            minhaOcorrencia: true // Marcar que essa é minha ocorrência
           };
           
           setOutrasOcorrencias(prev => [...prev, novaOcorrencia]);
@@ -252,7 +265,6 @@ const Mapa = () => {
           });
           
           setChatRoom(roomKey);
-
           setBotaoModo('visualizar');
           
           const novasSimulacoes = [];
@@ -289,7 +301,7 @@ const Mapa = () => {
             });
           }
           
-          setSimulacoesLocais(novasSimulacoes);
+          setSimulacoesLocais(prev => [...prev, ...novasSimulacoes]);
         },
         (error) => alert("Erro ao obter localização: " + error.message)
       );
@@ -346,11 +358,10 @@ const Mapa = () => {
     
     setChatRoom(roomKey);
     setPosition(ocorrencia.posicao);
-    setHasLocation(true);
+    // NÃO alterar hasLocation aqui - deixar apenas para visualizar
     
     setBotaoModo('visualizar');
   };
-
 
   return (
     <div className="px-4 py-6">
@@ -363,22 +374,22 @@ const Mapa = () => {
             />
             <LocationUpdater position={position} />
             
-            {/* Sua localização atual */}
-            {hasLocation && (
+            {/* APENAS mostrar "Você está aqui!" onde EU marquei minha ocorrência */}
+            {minhaOcorrencia && (
               <>
-                <Marker position={position}>
+                <Marker position={minhaOcorrencia.posicao}>
                   <Popup>Você está aqui!</Popup>
                 </Marker>
                 <Circle
-                  center={position}
+                  center={minhaOcorrencia.posicao}
                   radius={300}
                   pathOptions={{ color: 'green', fillColor: 'green', fillOpacity: 0.2 }}
                 />
               </>
             )}
             
-            {/* Outras ocorrências no mapa */}
-            {outrasOcorrencias.map(ocorrencia => (
+            {/* Outras ocorrências no mapa (filtradas) */}
+            {filtrarOcorrencias(outrasOcorrencias).map(ocorrencia => (
               <React.Fragment key={ocorrencia.id}>
                 <Marker 
                   position={ocorrencia.posicao}
@@ -392,6 +403,9 @@ const Mapa = () => {
                       <strong>{ocorrencia.descricao}</strong>
                       <p>Tipo: {ocorrencia.tipo}</p>
                       <p>Data/Hora: {ocorrencia.dataHora}</p>
+                      {ocorrencia.minhaOcorrencia && (
+                        <p className="text-green-600 font-bold">Sua ocorrência</p>
+                      )}
                       <button 
                         onClick={() => selecionarOcorrencia(ocorrencia)}
                         style={{
@@ -416,8 +430,8 @@ const Mapa = () => {
               </React.Fragment>
             ))}
             
-            {/* Simulações no mapa local */}
-            {simulacoesLocais.map(simulacao => (
+            {/* Simulações no mapa local (filtradas) */}
+            {filtrarOcorrencias(simulacoesLocais).map(simulacao => (
               <React.Fragment key={simulacao.id}>
                 <Marker 
                   position={simulacao.posicao}
@@ -548,11 +562,26 @@ const Mapa = () => {
         </div>
       </div>
 
-      {/* Botão Principal (Marcar Localização ou Visualizar Local) */}
-      <div className="mt-4 w-[70%] flex justify-center">
+      {/* Filtro de Ocorrências */}
+      <div className="mt-4 w-[70%] flex justify-between items-center">
+        <div className="flex items-center gap-2">
+          <label className="font-semibold text-sm">Filtrar por tipo:</label>
+          <select
+            value={filtroTipo}
+            onChange={(e) => setFiltroTipo(e.target.value)}
+            className="border px-3 py-1 rounded text-sm"
+          >
+            <option value="todos">Todos</option>
+            <option value="alagamento">Alagamento</option>
+            <option value="deslizamento">Deslizamento</option>
+            <option value="incendio">Incêndio</option>
+          </select>
+        </div>
+
+        {/* Botão Principal (Marcar Localização ou Visualizar Local) */}
         <button
           onClick={handleBotaoPrincipal}
-          className={`text-white px-4 py-2 rounded hover:opacity-90 ${
+          className={`text-white px-4 py-2 rounded hover:opacity-90 mr-5 ${
             botaoModo === 'marcar' 
               ? 'bg-blue-500 hover:bg-blue-600' 
               : 'bg-green-500 hover:bg-green-600'
@@ -562,34 +591,45 @@ const Mapa = () => {
         </button>
       </div>
 
-      {/* Lista de ocorrências recentes */}
+      {/* Lista de ocorrências recentes (filtradas) */}
       <div className="mt-4 w-[70%]">
-        <h3 className="font-semibold mb-2">Ocorrências Recentes:</h3>
+        <h3 className="font-semibold mb-2">
+          Ocorrências Recentes {filtroTipo !== 'todos' && `(${filtroTipo})`}:
+        </h3>
         <div className="grid grid-cols-3 gap-2">
-          {outrasOcorrencias.map(ocorrencia => (
+          {filtrarOcorrencias(outrasOcorrencias).map(ocorrencia => (
             <div 
               key={ocorrencia.id}
-              className="p-2 border rounded bg-white shadow-sm cursor-pointer hover:bg-gray-50"
+              className={`p-2 border rounded shadow-sm cursor-pointer hover:bg-gray-50 ${
+                ocorrencia.minhaOcorrencia ? 'bg-green-50 border-green-300' : 'bg-white'
+              }`}
               onClick={() => selecionarOcorrencia(ocorrencia)}
             >
               <div className="font-semibold text-sm">{ocorrencia.descricao}</div>
               <div className="text-xs text-gray-600">{ocorrencia.dataHora}</div>
-              <div className="text-xs mt-1">
+              <div className="text-xs mt-1 flex justify-between">
                 <span className={`px-2 py-0.5 rounded text-white bg-${ocorrencia.tipo === 'alagamento' ? 'blue' : ocorrencia.tipo === 'deslizamento' ? 'yellow' : 'red'}-500`}>
                   {ocorrencia.tipo}
                 </span>
+                {ocorrencia.minhaOcorrencia && (
+                  <span className="px-2 py-0.5 rounded text-white bg-green-500">
+                    MINHA
+                  </span>
+                )}
               </div>
             </div>
           ))}
         </div>
       </div>
       
-      {/* Lista de simulações */}
-      {simulacoesLocais.length > 0 && (
+      {/* Lista de simulações (filtradas) */}
+      {filtrarOcorrencias(simulacoesLocais).length > 0 && (
         <div className="mt-4 w-[70%]">
-          <h3 className="font-semibold mb-2">Simulações Ativas:</h3>
+          <h3 className="font-semibold mb-2">
+            Simulações Ativas {filtroTipo !== 'todos' && `(${filtroTipo})`}:
+          </h3>
           <div className="grid grid-cols-3 gap-2">
-            {simulacoesLocais.map(simulacao => (
+            {filtrarOcorrencias(simulacoesLocais).map(simulacao => (
               <div 
                 key={simulacao.id}
                 className="p-2 border border-orange-300 rounded bg-orange-50 shadow-sm cursor-pointer hover:bg-orange-100"
