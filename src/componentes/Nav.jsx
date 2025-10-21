@@ -3,7 +3,7 @@ import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Link } from 'react-router-dom'
 import logo from '../img/logo.png'
-import Toggle from './Togle'
+import ToggleTheme from './Togle'
 
 const navigation = [
   { name: 'Home', to: '/' },
@@ -44,6 +44,9 @@ export default function Nav() {
                 {item.name}
               </Link>
             ))}
+          </div>
+          <div>
+            <ToggleTheme/>
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link to="/login" className="text-sm/6 font-semibold text-white">
@@ -88,7 +91,7 @@ export default function Nav() {
                   ))}
                 </div>
                 <div>
-                  <Toggle/>
+                  <ToggleTheme/>
                 </div>
                 <div className="py-6">
                   <Link

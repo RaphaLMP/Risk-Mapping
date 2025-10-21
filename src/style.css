@@ -1,7 +1,6 @@
-@import "tailwindcss";
-/* @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *)); */
+/* src/index.css */
+@import "tailwindcss"; 
 
-html, body {
-  height: 100%;
-  margin: 0;
-}
+/* 💡 Configuração Dark Mode v4.1 via classe: */
+@custom-variant dark (&:where(.dark, .dark *)); 
+

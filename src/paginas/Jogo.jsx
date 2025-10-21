@@ -64,11 +64,11 @@ const sections = [
 ];
 export default function App() {
   return (
-    <main>
+      <div className="w-full h-[100vh] flex justify-center dark:bg-[#112738]">
       <h1>Informações de Emergência - Alagamentos</h1>
       {sections.map((section, index) => (
         <Section key={index} title={section.title} items={section.items} />
       ))}
-    </main>
+    </div>
   );
 }
