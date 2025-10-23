@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
-import L from "leaflet";
+import L, { map } from "leaflet";
 import "leaflet/dist/leaflet.css";
 import ConfirmPopup from "./Popup";
+import WeatherCard from "./Tempeture";
 
 // Corrige ícones padrão do Leaflet (importante no React)
 delete L.Icon.Default.prototype._getIconUrl;
@@ -36,10 +37,17 @@ export default function Mapa() {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      (pos) => setPosition([pos.coords.latitude, pos.coords.longitude]),
-      () => setPosition([-23.5505, -46.6333]) // fallback: Centro SP
+      (pos) => setPosition({
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude
+      }),
+      () => setPosition({
+        lat: -23.5505,
+        lng: -46.6333
+      })
     );
   }, []);
+
 
   const handleMapClick = (latlng) => {
     if (ignoreNextClickRef.current) {
@@ -79,16 +87,17 @@ export default function Mapa() {
 
   return (
     <div className="w-full">
+      {position && <WeatherCard Lat={position.lat} Long={position.lng} />}
       <div className="w-full h-[500px]">
         {position ? (
-          <MapContainer center={position} zoom={14} style={{ height: "100%", width: "100%" }}>
+          <MapContainer center={[position.lat, position.lng]} zoom={14} style={{ height: "100%", width: "100%" }}>
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               attribution="© OpenStreetMap contributors"
             />
 
             {/* Marcador da posição atual */}
-            <Marker position={position}>
+            <Marker position={[position.lat, position.lng]}>
               <Popup>📍 Você está aqui!</Popup>
             </Marker>
 
