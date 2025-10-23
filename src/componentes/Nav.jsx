@@ -7,7 +7,7 @@ import ToggleTheme from './Togle'
 
 const navigation = [
   { name: 'Home', to: '/' },
-  { name: 'Guia de Segurança', to: '/jogo' },
+  { name: 'Guia de Segurança', to: '/guiaSeguranca' },
   { name: 'Contato', to: '/contato' },
 ]
 
