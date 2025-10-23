@@ -1,7 +1,7 @@
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import Home from './paginas/Home'
 import Sobre from './paginas/Sobre'
-import Jogo from './paginas/Jogo'
+import Jogo from './paginas/GuiaSeguranca'
 import Contato from './paginas/Contato'
 import Layout from './paginas/Layout';
 
