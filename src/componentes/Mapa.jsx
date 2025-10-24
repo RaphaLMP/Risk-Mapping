@@ -37,10 +37,10 @@ export default function Mapa() {
 
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-        (pos) => setPosition({
-          lat: pos.coords.latitude,
-          lng: pos.coords.longitude
-        }),
+      (pos) => setPosition({
+        lat: pos.coords.latitude,
+        lng: pos.coords.longitude
+      }),
       () => setPosition({
         lat: -23.5505,
         lng: -46.6333
@@ -86,6 +86,7 @@ export default function Mapa() {
 
   return (
     <div className="w-full">
+      
       <div className="w-full h-[500px]">
         {position ? (
           <MapContainer center={[position.lat, position.lng]} zoom={14} style={{ height: "100%", width: "100%" }}>
@@ -163,7 +164,10 @@ export default function Mapa() {
           <div className="text-sm text-slate-500">Nenhum evento selecionado</div>
         )}
       </div>
-       {position && <WeatherCard Lat={position.lat} Long={position.lng} />}
+      
+        {position && <WeatherCard Lat={position.lat} Long={position.lng} />}
+    
+
     </div>
   );
 }

@@ -1,10 +1,8 @@
 export default function Footer() {
     return (
         <footer
-            className={`border-t py-6 text-sm transition-colors duration-300 ${isLightMode
-                ? "bg-[#dceeff] border-blue-300 text-[#0d1b2a]"
-                : "bg-[#0d1b2a] border-blue-800 text-gray-300"
-                }`}
+            className="border-t py-6 text-sm transition-colors duration-300 bg-[#dceeff] border-blue-300 text-[#0d1b2a] dark:bg-[#0d1b2a] dark:border-blue-800 dark:text-gray-300"
+              
         >
             <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-6 text-center md:text-left">
                 <div>

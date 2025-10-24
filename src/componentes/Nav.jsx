@@ -16,7 +16,7 @@ export default function Nav() {
 
   return (
     <div className="bg-gray-900">
-      <header>
+      <header className='shadow-sm'>
         <nav aria-label="Global" className="flex items-center justify-between p-4 lg:px-8">
           <div className="flex lg:flex-1">
             <Link to="/" className="-m-1.5 p-1.5">
@@ -38,9 +38,9 @@ export default function Nav() {
               <Bars3Icon aria-hidden="true" className="size-6" />
             </button>
           </div>
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden lg:flex lg:gap-x-12 ">
             {navigation.map((item) => (
-              <Link key={item.name} to={item.to} className="text-sm/6 font-semibold text-white">
+              <Link key={item.name} to={item.to} className="hover:text-blue-300 cursor-pointer text-sm/6 font-semibold text-white">
                 {item.name}
               </Link>
             ))}
