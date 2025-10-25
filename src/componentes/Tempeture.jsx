@@ -36,7 +36,6 @@ export default function WeatherCard({ Lat, Long }) {
       </div>
     );
 
-  // Define o alerta de risco
   const rain = weather.precipitation;
   let alertColor = "bg-green-600";
   let alertText = "Sem risco de enchente";
@@ -49,14 +48,13 @@ export default function WeatherCard({ Lat, Long }) {
     alertText = "Risco alto de enchente ⚠️";
   }
   return (
-    <div className="dark:bg-[#212e47] rounded-2xl p-8 text-white shadow-lg lg:w-[50%] h-[50%]">
-      <h2 className="text-2xl font-semibold text-center mb-6 dark:text-white">
-        🌦️ Painel de Monitoramento
+    <div className="rounded-2xl p-8 text-white shadow-lg">
+      <h2 className="text-4xl md:text-2xl text-center mb-6 dark:text-white">
+        Campinas
       </h2>
 
       <div className="flex flex-col items-center mb-8">
-        <p className="text-7xl font-bold drop-shadow-md">{weather.temperature_2m}°C</p>
-        <p className="text-sm text-gray-200 mt-1">Temperatura atual</p>
+        <p className="text-6xl md:text-7xl drop-shadow-md">{weather.temperature_2m}°</p>
       </div>
 
       <div className="flex justify-center gap-12 mb-8">
