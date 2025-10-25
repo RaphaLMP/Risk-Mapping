@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
 import { ArrowLongDownIcon } from "@heroicons/react/16/solid";
 
-export default function WeatherCard({Lat, Long}) {
+export default function WeatherCard({ Lat, Long }) {
   const [weather, setWeather] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -37,7 +36,6 @@ export default function WeatherCard({Lat, Long}) {
       </div>
     );
 
-  // Define o alerta de risco
   const rain = weather.precipitation;
   let alertColor = "bg-green-600";
   let alertText = "Sem risco de enchente";
@@ -49,38 +47,31 @@ export default function WeatherCard({Lat, Long}) {
     alertColor = "bg-red-600";
     alertText = "Risco alto de enchente ⚠️";
   }
-
   return (
-    <motion.div
-      className="max-w-sm mx-auto bg-gradient-to-br from-blue-900 to-blue-600 text-white rounded-2xl shadow-xl p-6 mt-6"
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-    >
-      <h2 className="text-2xl font-semibold text-center mb-4">
-        🌦️ Painel de Monitoramento
+    <div className="rounded-2xl p-8 text-white shadow-lg">
+      <h2 className="text-4xl md:text-2xl text-center mb-6 dark:text-white">
+        Campinas
       </h2>
 
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <p className="text-sm text-gray-200">Temperatura</p>
-          <p className="text-3xl font-bold">{weather.temperature_2m}°C</p>
+      <div className="flex flex-col items-center mb-8">
+        <p className="text-6xl md:text-7xl drop-shadow-md">{weather.temperature_2m}°</p>
+      </div>
+
+      <div className="flex justify-center gap-12 mb-8">
+        <div className="text-center">
+          <p className="text-gray-200 text-sm">Chuva</p>
+          <p className="text-xl font-medium">{rain} mm</p>
         </div>
-        <div>
-          <p className="text-sm text-gray-200">Chuva</p>
-          <p className="text-3xl font-bold">{rain} mm</p>
-        </div>
-        <div>
-          <p className="text-sm text-gray-200">Vento</p>
-          <p className="text-3xl font-bold">{weather.wind_speed_10m} km/h</p>
+        <div className="text-center">
+          <p className="text-gray-200 text-sm">Vento</p>
+          <p className="text-xl font-medium">{weather.wind_speed_10m} km/h</p>
         </div>
       </div>
 
-      <div
-        className={`${alertColor} text-white text-center font-semibold py-2 rounded-xl`}
-      >
+      <div className={`${alertColor} text-white text-center font-semibold py-2 rounded-xl`}>
         {alertText}
       </div>
-    </motion.div>
+    </div>
+
   );
 }
