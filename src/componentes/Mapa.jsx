@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaflet";
-import L, { map } from "leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import ConfirmPopup from "./Popup";
 import WeatherCard from "./Tempeture";
@@ -14,6 +14,20 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
+const eventColors = {
+  Tempestade: "#2563eb", // azul escuro
+  Alagamento: "#0891b2", // ciano
+  Enchente: "#3b82f6",   // azul claro
+  Incêndio: "#dc2626",   // vermelho
+};
+
+const eventIcons = {
+  Tempestade: "🌩️",
+  Alagamento: "💧",
+  Enchente: "🌊",
+  Incêndio: "🔥",
+};
+
 function ClickCatcher({ onMapClick, disabled }) {
   useMapEvents({
     click(e) {
@@ -24,30 +38,32 @@ function ClickCatcher({ onMapClick, disabled }) {
 }
 
 export default function Mapa() {
-  // Opções exibidas no popup
   const tipoOptions = ["Tempestade", "Alagamento", "Enchente", "Incêndio"];
-
   const [position, setPosition] = useState(null);
-  const [markers, setMarkers] = useState([]); // [{ latlng: {lat, lng}, tipo: string }]
-  const [pending, setPending] = useState(null); // latlng aguardando confirmação
-  const [selectedTipo, setSelectedTipo] = useState(tipoOptions[0]); // inicial com a 1ª opção
-  const [selectedInfo, setSelectedInfo] = useState(null); // { latlng, tipo, index }
+  const [markers, setMarkers] = useState([]); // [{ latlng, tipo }]
+  const [pending, setPending] = useState(null);
+  const [selectedTipo, setSelectedTipo] = useState(tipoOptions[0]);
+  const [selectedInfo, setSelectedInfo] = useState(null);
 
   const ignoreNextClickRef = useRef(false);
 
+  // 🧭 Captura geolocalização
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      (pos) => setPosition({
-        lat: pos.coords.latitude,
-        lng: pos.coords.longitude
-      }),
-      () => setPosition({
-        lat: -23.5505,
-        lng: -46.6333
-      })
+      (pos) =>
+        setPosition({
+          lat: pos.coords.latitude,
+          lng: pos.coords.longitude,
+        }),
+      () =>
+        setPosition({
+          lat: -23.5505,
+          lng: -46.6333,
+        })
     );
   }, []);
 
+  // 🖱️ Clique no mapa
   const handleMapClick = (latlng) => {
     if (ignoreNextClickRef.current) {
       ignoreNextClickRef.current = false;
@@ -57,6 +73,7 @@ export default function Mapa() {
     setSelectedTipo(tipoOptions[0]);
   };
 
+  // ✅ Confirma marcador
   const confirmAddMarker = () => {
     if (!pending) return;
 
@@ -69,7 +86,6 @@ export default function Mapa() {
     });
 
     setPending(null);
-
     ignoreNextClickRef.current = true;
     setTimeout(() => (ignoreNextClickRef.current = false), 0);
   };
@@ -81,16 +97,49 @@ export default function Mapa() {
     setSelectedInfo(null);
   };
 
+  // 🎨 Cria um ícone colorido com o emoji do evento
+  const createColoredIcon = (tipo) => {
+    const color = eventColors[tipo] || "#2563eb";
+    const emoji = eventIcons[tipo] || "📍";
+
+    return L.divIcon({
+      className: "custom-pin",
+      html: `
+        <div style="
+          background-color: ${color};
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 16px;
+          color: white;
+          box-shadow: 0 0 4px rgba(0,0,0,0.3);
+        ">
+          ${emoji}
+        </div>
+      `,
+      iconSize: [28, 28],
+      iconAnchor: [14, 14],
+    });
+  };
+
   return (
     <div className="w-full h-full flex flex-col gap-y-6">
       <div className="w-full">
         {position && <WeatherCard Lat={position.lat} Long={position.lng} />}
       </div>
+
       <div>
         <div className="flex flex-col lg:flex-row h-[600px] w-full gap-y-6">
           <div className="w-full h-full pr-4">
             {position ? (
-              <MapContainer center={[position.lat, position.lng]} zoom={14} style={{ height: "100%", width: "100%" }}>
+              <MapContainer
+                center={[position.lat, position.lng]}
+                zoom={14}
+                style={{ height: "100%", width: "100%" }}
+              >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                   attribution="© OpenStreetMap contributors"
@@ -106,17 +155,23 @@ export default function Mapa() {
                   <Marker
                     key={i}
                     position={m.latlng}
+                    icon={createColoredIcon(m.tipo)}
                     eventHandlers={{
-                      click: () => setSelectedInfo({ ...m, index: i }), // seleciona ao clicar
+                      click: () => setSelectedInfo({ ...m, index: i }),
                     }}
                   >
                     <Popup>
                       <div className="min-w-[160px]">
-                        <div className="font-semibold">{m.tipo}</div>
+                        <div
+                          className="font-semibold"
+                          style={{ color: eventColors[m.tipo] }}
+                        >
+                          {eventIcons[m.tipo]} {m.tipo}
+                        </div>
                         <button
                           onClick={() => removeMarkerByIndex(i)}
                           className="mt-2 px-3 py-1 bg-red-600 text-white rounded"
-                        >px
+                        >
                           Remover
                         </button>
                       </div>
@@ -124,10 +179,8 @@ export default function Mapa() {
                   </Marker>
                 ))}
 
-                {/* Captura cliques no mapa (desativa quando o popup está aberto) */}
                 <ClickCatcher onMapClick={handleMapClick} disabled={!!pending} />
 
-                {/* Popup de confirmação como componente */}
                 <ConfirmPopup
                   position={pending}
                   value={selectedTipo}
@@ -142,29 +195,36 @@ export default function Mapa() {
               <p>Carregando localização...</p>
             )}
           </div>
+
           <Chat />
         </div>
 
-        {/* Painel inferior com o evento selecionado/recém-adicionado */}
-        <div className="mt-3">
-          {selectedInfo ? (
-            <div className="rounded-md border border-slate-200 bg-white shadow-sm p-3 flex items-center justify-between">
-              <div>
-                <div className="text-xs text-slate-500">Evento selecionado</div>
-                <div className="font-medium">{selectedInfo.tipo}</div>
-                <div className="text-xs text-slate-500">
-                  Lat: {selectedInfo.latlng.lat.toFixed(5)} | Lng: {selectedInfo.latlng.lng.toFixed(5)}
+        {/* Lista de todos os eventos abaixo do mapa */}
+        <div className="mt-4">
+          <h2 className="text-sm font-semibold text-slate-600 mb-2">
+            Eventos no mapa:
+          </h2>
+
+          {markers.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {markers.map((m, i) => (
+                <div
+                  key={i}
+                  className="rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm cursor-pointer transition"
+                  style={{
+                    backgroundColor: eventColors[m.tipo],
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "6px",
+                  }}
+                  onClick={() => setSelectedInfo({ ...m, index: i })}
+                >
+                  <span>{eventIcons[m.tipo]}</span> {m.tipo}
                 </div>
-              </div>
-              <button
-                onClick={() => setSelectedInfo(null)}
-                className="text-sm text-blue-600 hover:underline"
-              >
-                Limpar
-              </button>
+              ))}
             </div>
           ) : (
-            <div className="text-sm text-slate-500">Nenhum evento selecionado</div>
+            <p className="text-sm text-slate-500">Nenhum evento adicionado ainda.</p>
           )}
         </div>
       </div>
