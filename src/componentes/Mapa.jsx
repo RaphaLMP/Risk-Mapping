@@ -6,7 +6,6 @@ import ConfirmPopup from "./Popup";
 import WeatherCard from "./Tempeture";
 import Chat from "./Chat";
 
-// Corrige ícones padrão do Leaflet (importante no React)
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
@@ -15,10 +14,10 @@ L.Icon.Default.mergeOptions({
 });
 
 const eventColors = {
-  Tempestade: "#2563eb", // azul escuro
-  Alagamento: "#0891b2", // ciano
-  Enchente: "#3b82f6",   // azul claro
-  Incêndio: "#dc2626",   // vermelho
+  Tempestade: "#2563eb",
+  Alagamento: "#0891b2", 
+  Enchente: "#3b82f6",
+  Incêndio: "#dc2626",
 };
 
 const eventIcons = {
@@ -46,8 +45,8 @@ export default function Mapa() {
   const [selectedInfo, setSelectedInfo] = useState(null);
 
   const ignoreNextClickRef = useRef(false);
+  const mapRef = useRef(null);
 
-  // 🧭 Captura geolocalização
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (pos) =>
@@ -97,7 +96,14 @@ export default function Mapa() {
     setSelectedInfo(null);
   };
 
-  // 🎨 Cria um ícone colorido com o emoji do evento
+  const flyToMarker = (latlng) => {
+    if (mapRef.current) {
+      mapRef.current.flyTo(latlng, 16, {
+        duration: 1.5
+      });
+    }
+  };
+
   const createColoredIcon = (tipo) => {
     const color = eventColors[tipo] || "#2563eb";
     const emoji = eventIcons[tipo] || "📍";
@@ -139,6 +145,7 @@ export default function Mapa() {
                 center={[position.lat, position.lng]}
                 zoom={14}
                 style={{ height: "100%", width: "100%" }}
+                ref={mapRef}
               >
                 <TileLayer
                   url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -210,14 +217,17 @@ export default function Mapa() {
               {markers.map((m, i) => (
                 <div
                   key={i}
-                  className="rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm cursor-pointer transition"
+                  className="rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm cursor-pointer transition hover:opacity-80"
                   style={{
                     backgroundColor: eventColors[m.tipo],
                     display: "flex",
                     alignItems: "center",
                     gap: "6px",
                   }}
-                  onClick={() => setSelectedInfo({ ...m, index: i })}
+                  onClick={() => {
+                    setSelectedInfo({ ...m, index: i });
+                    flyToMarker(m.latlng);
+                  }}
                 >
                   <span>{eventIcons[m.tipo]}</span> {m.tipo}
                 </div>
