@@ -3,7 +3,7 @@ export default function Footer() {
         <footer 
             className="py-6 text-sm transition-all duration-500 bg-gradient-to-br from-blue-100 to-indigo-200 
                         dark:from-[#0b1724] dark:to-[#142435] 
-                        border-t border-blue-300 dark:border-blue-800 
+                        dark:border-blue-800 
                         text-[#0d1b2a] dark:text-gray-300"
             >
 
