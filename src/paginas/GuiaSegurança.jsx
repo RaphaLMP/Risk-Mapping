@@ -92,7 +92,6 @@ const GuiaAlagamento = () => {
           </p>
         </div>
       </main>
-      <Footer/>
     </div>
   );
 };
