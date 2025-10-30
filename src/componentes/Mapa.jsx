@@ -15,7 +15,7 @@ L.Icon.Default.mergeOptions({
 
 const eventColors = {
   Tempestade: "#2563eb",
-  Alagamento: "#0891b2", 
+  Alagamento: "#0891b2",
   Enchente: "#3b82f6",
   Incêndio: "#dc2626",
 };
@@ -47,22 +47,28 @@ export default function Mapa() {
   const ignoreNextClickRef = useRef(false);
   const mapRef = useRef(null);
 
+  // ✅ Pega localização atual e salva no localStorage
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
-      (pos) =>
-        setPosition({
+      (pos) => {
+        const coords = {
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
-        }),
-      () =>
-        setPosition({
-          lat: -23.5505,
-          lng: -46.6333,
-        })
+        };
+        setPosition(coords);
+        localStorage.setItem("lat", coords.lat);
+        localStorage.setItem("lng", coords.lng); 
+      },
+      () => {
+        // fallback: São Paulo
+        const fallback = { lat: -23.5505, lng: -46.6333 };
+        setPosition(fallback);
+        localStorage.setItem("lat", fallback.lat);
+        localStorage.setItem("lng", fallback.lng);
+      }
     );
   }, []);
 
-  // 🖱️ Clique no mapa
   const handleMapClick = (latlng) => {
     if (ignoreNextClickRef.current) {
       ignoreNextClickRef.current = false;
@@ -72,12 +78,10 @@ export default function Mapa() {
     setSelectedTipo(tipoOptions[0]);
   };
 
-  // ✅ Confirma marcador
   const confirmAddMarker = () => {
     if (!pending) return;
 
     const newMarker = { latlng: pending, tipo: selectedTipo };
-
     setMarkers((prev) => {
       const next = [...prev, newMarker];
       setSelectedInfo({ ...newMarker, index: next.length - 1 });
@@ -98,9 +102,7 @@ export default function Mapa() {
 
   const flyToMarker = (latlng) => {
     if (mapRef.current) {
-      mapRef.current.flyTo(latlng, 16, {
-        duration: 1.5
-      });
+      mapRef.current.flyTo(latlng, 16, { duration: 1.5 });
     }
   };
 
@@ -132,112 +134,110 @@ export default function Mapa() {
   };
 
   return (
-    <div className="w-full h-full flex flex-col gap-y-6">
+    <div className="flex flex-col gap-y-6 w-full h-auto">
+      {/* Card do clima */}
       <div className="w-full">
         {position && <WeatherCard Lat={position.lat} Long={position.lng} />}
       </div>
 
-      <div>
-        <div className="flex flex-col lg:flex-row h-[600px] w-full gap-y-6">
-          <div className="w-full h-full pr-4">
-            {position ? (
-              <MapContainer
-                center={[position.lat, position.lng]}
-                zoom={14}
-                style={{ height: "100%", width: "100%" }}
-                ref={mapRef}
-              >
-                <TileLayer
-                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                  attribution="© OpenStreetMap contributors"
-                />
+      {/* Mapa e eventos */}
+      <div className="flex flex-col lg:flex-row w-full gap-y-6">
+        <div className="w-full h-[500px] md:h-[600px]">
+          {position ? (
+            <MapContainer
+              center={[position.lat, position.lng]}
+              zoom={14}
+              style={{ height: "100%", width: "100%" }}
+              ref={mapRef}
+            >
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution="© OpenStreetMap contributors"
+              />
+              {/* Posição atual */}
+              <Marker position={position}>
+                <Popup>📍 Você está aqui!</Popup>
+              </Marker>
 
-                {/* Marcador da posição atual */}
-                <Marker position={position}>
-                  <Popup>📍 Você está aqui!</Popup>
-                </Marker>
-
-                {/* Marcadores confirmados */}
-                {markers.map((m, i) => (
-                  <Marker
-                    key={i}
-                    position={m.latlng}
-                    icon={createColoredIcon(m.tipo)}
-                    eventHandlers={{
-                      click: () => setSelectedInfo({ ...m, index: i }),
-                    }}
-                  >
-                    <Popup>
-                      <div className="min-w-[160px]">
-                        <div
-                          className="font-semibold"
-                          style={{ color: eventColors[m.tipo] }}
-                        >
-                          {eventIcons[m.tipo]} {m.tipo}
-                        </div>
-                        <button
-                          onClick={() => removeMarkerByIndex(i)}
-                          className="mt-2 px-3 py-1 bg-red-600 text-white rounded"
-                        >
-                          Remover
-                        </button>
-                      </div>
-                    </Popup>
-                  </Marker>
-                ))}
-
-                <ClickCatcher onMapClick={handleMapClick} disabled={!!pending} />
-
-                <ConfirmPopup
-                  position={pending}
-                  value={selectedTipo}
-                  onChange={setSelectedTipo}
-                  onConfirm={confirmAddMarker}
-                  onCancel={cancelAddMarker}
-                  onClose={() => setPending(null)}
-                  options={tipoOptions}
-                />
-              </MapContainer>
-            ) : (
-              <p>Carregando localização...</p>
-            )}
-          </div>
-
-          <Chat />
-        </div>
-
-        {/* Lista de todos os eventos abaixo do mapa */}
-        <div className="mt-4">
-          <h2 className="text-sm font-semibold text-slate-600 mb-2">
-            Eventos no mapa:
-          </h2>
-
-          {markers.length > 0 ? (
-            <div className="flex flex-wrap gap-2">
+              {/* Marcadores confirmados */}
               {markers.map((m, i) => (
-                <div
+                <Marker
                   key={i}
-                  className="rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm cursor-pointer transition hover:opacity-80"
-                  style={{
-                    backgroundColor: eventColors[m.tipo],
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "6px",
-                  }}
-                  onClick={() => {
-                    setSelectedInfo({ ...m, index: i });
-                    flyToMarker(m.latlng);
+                  position={m.latlng}
+                  icon={createColoredIcon(m.tipo)}
+                  eventHandlers={{
+                    click: () => setSelectedInfo({ ...m, index: i }),
                   }}
                 >
-                  <span>{eventIcons[m.tipo]}</span> {m.tipo}
-                </div>
+                  <Popup>
+                    <div className="min-w-[160px]">
+                      <div
+                        className="font-semibold"
+                        style={{ color: eventColors[m.tipo] }}
+                      >
+                        {eventIcons[m.tipo]} {m.tipo}
+                      </div>
+                      <button
+                        onClick={() => removeMarkerByIndex(i)}
+                        className="mt-2 px-3 py-1 bg-red-600 text-white rounded"
+                      >
+                        Remover
+                      </button>
+                    </div>
+                  </Popup>
+                </Marker>
               ))}
-            </div>
+
+              <ClickCatcher onMapClick={handleMapClick} disabled={!!pending} />
+              <ConfirmPopup
+                position={pending}
+                value={selectedTipo}
+                onChange={setSelectedTipo}
+                onConfirm={confirmAddMarker}
+                onCancel={cancelAddMarker}
+                onClose={() => setPending(null)}
+                options={tipoOptions}
+              />
+            </MapContainer>
           ) : (
-            <p className="text-sm text-slate-500">Nenhum evento adicionado ainda.</p>
+            <p>Carregando localização...</p>
           )}
         </div>
       </div>
+
+      {/* Lista de eventos */}
+      <div className="mt-4">
+        <h2 className="text-sm font-semibold text-slate-600 mb-2">
+          Eventos no mapa:
+        </h2>
+        {markers.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {markers.map((m, i) => (
+              <div
+                key={i}
+                className="rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm cursor-pointer transition hover:opacity-80"
+                style={{
+                  backgroundColor: eventColors[m.tipo],
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "6px",
+                }}
+                onClick={() => {
+                  setSelectedInfo({ ...m, index: i });
+                  flyToMarker(m.latlng);
+                }}
+              >
+                <span>{eventIcons[m.tipo]}</span> {m.tipo}
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="text-sm text-slate-500">
+            Nenhum evento adicionado ainda.
+          </p>
+        )}
+      </div>
     </div>
+
   );
 }

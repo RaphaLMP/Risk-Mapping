@@ -25,7 +25,7 @@ export default function ToggleTheme() {
 
   return (
     <div className=" ">
-      <header className="p-4 flex justify-end">
+      <header className="p-4 flex">
         <button
           onClick={toggleTheme}
           className="px-3 py-2 rounded bg-gray-200 dark:bg-gray-700"
