@@ -23,10 +23,13 @@ export default function Nav() {
           className="flex items-center justify-between p-4 lg:px-8"
         >
           <div className="flex lg:flex-1">
-            <Link to="/" className="-m-1.5 p-1.5">
+            <Link to="/" className="-m-1.5 p-1.5 flex items-center gap-3">
               <span className="sr-only">Risk Map</span>
               <img alt="logo" src={logoDark} className="w-20 lg:w-16 dark:hidden" />
               <img alt="logo" src={logo} className="w-20 lg:w-16 hidden dark:block" />
+              <span className="text-xl font-bold text-gray-800 dark:text-white">
+                Risk Mapping
+              </span>
             </Link>
           </div>
 
@@ -41,12 +44,12 @@ export default function Nav() {
             </button>
           </div>
 
-          <div className="hidden lg:flex lg:gap-x-12">
+          <div className="hidden lg:flex lg:gap-x-4">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.to}
-                className="cursor-pointer text-sm font-semibold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-300"
+                className="px-3 py-2 rounded-xl bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-all duration-300 shadow-md hover:shadow-lg text-sm font-semibold text-gray-800 dark:text-white"
               >
                 {item.name}
               </Link>
@@ -98,7 +101,7 @@ export default function Nav() {
                       key={item.name}
                       to={item.to}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-800 dark:text-white hover:bg-gray-200 dark:hover:bg-white/5"
+                      className="block rounded-xl px-3 py-2 bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-all duration-300 shadow-md hover:shadow-lg text-base font-semibold text-gray-800 dark:text-white"
                     >
                       {item.name}
                     </Link>

@@ -10,8 +10,12 @@ export default function Home() {
     <>
       <div className="w-full flex flex-col items-center bg-gray-100 dark:bg-[#0e1e2e] transition-colors duration-500">
         <div
-          className="w-full h-[400px] bg-gradient-to-br from-blue-100 to-indigo-200 dark:from-[#0b1724] dark:to-[#142435] py-20 relative transition-all duration-500">
-        </div>
+          className="w-full h-[400px] bg-gradient-to-br 
+            from-blue-100 to-indigo-200 
+            dark:from-[#132235] dark:via-[#1a2f46] dark:to-[#233b56] 
+            py-20 relative transition-all duration-500"
+          ></div>
+
 
         <div className="w-[90%] md:w-[60%] -mt-72 relative z-10 backdrop-blur-md bg-white/10 dark:bg-[#0e1e2e]/70 rounded-2xl shadow-xl p-6 mb-12 transition-colors duration-500">
           <MapComponent />

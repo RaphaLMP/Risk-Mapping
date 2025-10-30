@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Sun, Moon } from "lucide-react";
 
 export default function ToggleTheme() {
   const [darkMode, setDarkMode] = useState(false);
@@ -24,13 +25,14 @@ export default function ToggleTheme() {
   };
 
   return (
-    <div className=" ">
+    <div className="">
       <header className="p-4 flex justify-end">
         <button
           onClick={toggleTheme}
-          className="px-3 py-2 rounded bg-gray-200 dark:bg-gray-700"
+          className="p-3 rounded-xl bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-all duration-300 shadow-md hover:shadow-lg"
+          aria-label="Alternar tema"
         >
-          {darkMode ? "☀️ Light" : "🌙 Dark"}
+          {darkMode ? <Sun size={24} color="#fbbf24" /> : <Moon size={24} color="#6366f1" />}
         </button>
       </header>
     </div>
