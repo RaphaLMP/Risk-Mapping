@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export default function WeatherCard({ Lat, Long }) {
   const [weather, setWeather] = useState(null);
+  const [cityName, setCityName] = useState("Carregando...");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,7 +19,23 @@ export default function WeatherCard({ Lat, Long }) {
         setLoading(false);
       }
     }
+
+    async function fetchCityName() {
+      try {
+        const res = await fetch(
+          `https://nominatim.openstreetmap.org/reverse?lat=${Lat}&lon=${Long}&format=json`
+        );
+        const data = await res.json();
+        const city = data.address.city || data.address.town || data.address.village || data.address.state || "Localização";
+        setCityName(city);
+      } catch (error) {
+        console.error("Erro ao buscar nome da cidade:", error);
+        setCityName("Localização");
+      }
+    }
+
     fetchWeather();
+    fetchCityName();
   }, [Lat, Long]);
 
   if (loading)
@@ -53,8 +70,8 @@ export default function WeatherCard({ Lat, Long }) {
 
   return (
     <div className="rounded-2xl p-8 shadow-lg bg-white/20 dark:bg-[#0e1e2e]/50 backdrop-blur-md transition-colors duration-300">
-      <h2 className="text-4xl md:text-2xl text-center mb-6 text-gray-900 dark:text-white">
-        Campinas
+      <h2 className="text-4xl md:text-4xl text-center mb-6 text-gray-900 dark:text-white">
+        {cityName}
       </h2>
 
       <div className="flex flex-col items-center mb-8">

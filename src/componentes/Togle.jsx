@@ -26,13 +26,17 @@ export default function ToggleTheme() {
 
   return (
     <div className="">
-      <header className="p-4 flex justify-end">
+      <header className="p-4 flex justify-start md:justify-end">
         <button
           onClick={toggleTheme}
           className="p-3 rounded-xl bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-all duration-300 shadow-md hover:shadow-lg"
           aria-label="Alternar tema"
         >
-          {darkMode ? <Sun size={24} color="#fbbf24" /> : <Moon size={24} color="#6366f1" />}
+          {darkMode ? (
+            <Sun size={24} color="#fbbf24" />
+          ) : (
+            <Moon size={24} color="#6366f1" />
+          )}
         </button>
       </header>
     </div>
