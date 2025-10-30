@@ -56,7 +56,7 @@ export default function Nav() {
             ))}
           </div>
 
-          <div>
+          <div className="hidden md:flex">
             <ToggleTheme />
           </div>
 
