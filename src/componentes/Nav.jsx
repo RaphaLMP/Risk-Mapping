@@ -10,13 +10,14 @@ const navigation = [
   { name: 'Home', to: '/' },
   { name: 'Guia de Segurança', to: '/guiaSeguranca' },
   { name: 'Contato', to: '/contato' },
+  { name: 'EducaCidade', to: '/educa' },
 ]
 
 export default function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="bg-[#259add] dark:bg-gray-900 transition-colors duration-300">
+    <div className="bg-[#1890d6] dark:bg-gray-900 transition-colors duration-300">
       <header className="shadow-sm">
         <nav
           aria-label="Global"
@@ -25,9 +26,9 @@ export default function Nav() {
           <div className="flex lg:flex-1">
             <Link to="/" className="-m-1.5 p-1.5 flex items-center gap-3">
               <span className="sr-only">Risk Map</span>
-              <img alt="logo" src={logoDark} className="w-20 lg:w-16 dark:hidden" />
-              <img alt="logo" src={logo} className="w-20 lg:w-16 hidden dark:block" />
-              <span className="text-xl font-bold text-gray-800 dark:text-white">
+              {/* <img alt="logo" src={logoDark} className="w-20 lg:w-16 dark:hidden" /> */}
+              <img alt="logo" src={logo} className="w-20 lg:w-16 block" />
+              <span className="text-xl font-bold text-white">
                 Risk Mapping
               </span>
             </Link>

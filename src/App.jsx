@@ -4,6 +4,7 @@ import Sobre from './paginas/Sobre'
 import Contato from './paginas/Contato'
 import Layout from './paginas/Layout';
 import GuiaAlagamento from './paginas/GuiaSegurança';
+import EducaCidade from './paginas/EducaCidade';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path="/guiaSeguranca" element={<GuiaAlagamento />} />
         <Route path="/contato" element={<Contato />} />
         <Route path="/sobre" element={<Sobre />} />
+        <Route path="/educa" element={<EducaCidade />} />
       </Route>
     </Routes>
   );

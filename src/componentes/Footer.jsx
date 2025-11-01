@@ -3,10 +3,7 @@ import { Headset, Phone, Instagram, Facebook } from 'lucide-react'
 export default function Footer() {
     return (
         <footer 
-            className="py-6 text-sm transition-all duration-500 bg-gradient-to-br from-blue-100 to-indigo-200 
-                        dark:from-[#0b1724] dark:to-[#142435] 
-                        dark:border-blue-800 
-                        text-[#0d1b2a] dark:text-gray-300"
+            className="py-6 text-sm transition-all duration-500 bg-[#259add] dark:bg-gray-900"
             >
 
             <div className="max-w-5xl mx-auto flex flex-col md:flex-row justify-between gap-6 text-center md:text-left">

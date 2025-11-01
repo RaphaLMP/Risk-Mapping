@@ -3,10 +3,6 @@ import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from "react-leaf
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import ConfirmPopup from "./Popup";
-import WeatherCard from "./Tempeture";
-import Nubi from "../img/Nubi.png";
-import NubiBranco from "../img/Nubi_Branco.png";
-import Chat from "./Chat";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -141,22 +137,7 @@ export default function Mapa() {
   return (
     <div className="flex flex-col gap-y-6 w-full h-auto">
       {/* Card do clima */}
-      <div className="flex flex-col xl:flex-row items-center space-x-6 grid-row-3 gap-3">
-        <div className="flex items-center">
-          {darkMode == true ? (
-            <img className="h-[120px] w-[120px] xl:h-[250px] xl:w-[250px]" src={Nubi} />
-          ): (
-            <img className="h-[120px] w-[120px] xl:h-[250px] xl:w-[250px]" src={NubiBranco} />
-          )}
-          <div className="text-amber-50">
-            <p className="text-2xl xl:text-3xl font-semibold">Oi, eu sou o Nubi!</p>
-            <p className="text-xl xl:text-xl">Veja aqui os alertas e áreas de risco da sua cidade.</p>
-          </div>
-        </div>
-        <div className="h-[200px] w-full xl:w-1/3">
-          {position && <WeatherCard Lat={position.lat} Long={position.lng} />}
-        </div>
-      </div>
+      
 
       {/* Mapa e eventos */}
       <div className="flex flex-col lg:flex-row w-full gap-y-6">
