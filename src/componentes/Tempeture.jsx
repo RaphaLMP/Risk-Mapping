@@ -69,33 +69,33 @@ export default function WeatherCard({ Lat, Long }) {
   }
 
   return (
-    <div className="rounded-2xl p-8 shadow-lg bg-white/20 dark:bg-[#0e1e2e]/50 backdrop-blur-md transition-colors duration-300">
-      <h2 className="text-4xl md:text-4xl text-center mb-6 text-gray-900 dark:text-white">
+    <div className="rounded-2xl p-4 shadow-lg bg-white/20 bg-gradient-to-bl from-cyan-500  to-blue-400 backdrop-blur-md transition-colors duration-300 grid grid-row-3 gap-3">
+      <h2 className="text-2xl md:text-3xl text-center text-amber-50">
         {cityName}
       </h2>
 
-      <div className="flex flex-col items-center mb-8">
-        <p className="text-6xl md:text-7xl drop-shadow-md text-gray-900 dark:text-white">
+      <div className="flex flex-col items-center">
+        <p className="text-6xl md:text-6xl drop-shadow-md text-amber-50">
           {weather.temperature_2m}°
         </p>
       </div>
 
-      <div className="flex justify-center gap-12 mb-8">
+      <div className="flex justify-center gap-12">
         <div className="text-center">
-          <p className="text-gray-700 dark:text-gray-300 text-sm">Chuva</p>
-          <p className="text-xl font-medium text-gray-900 dark:text-white">{rain} mm</p>
+          <p className="text-sm text-amber-50">Chuva</p>
+          <p className="text-xl font-medium text-amber-50">{rain} mm</p>
         </div>
         <div className="text-center">
-          <p className="text-gray-700 dark:text-gray-300 text-sm">Vento</p>
-          <p className="text-xl font-medium text-gray-900 dark:text-white">
+          <p className=" text-amber-50 text-sm">Vento</p>
+          <p className="text-xl font-medium text-amber-50">
             {weather.wind_speed_10m} km/h
           </p>
         </div>
       </div>
 
-      <div className={`${alertBg} ${alertTextColor} text-center font-semibold py-2 rounded-xl`}>
+      {/* <div className={`${alertBg} ${alertTextColor} text-center font-semibold py-2 rounded-xl`}>
         {alertText}
-      </div>
+      </div> */}
     </div>
   );
 }

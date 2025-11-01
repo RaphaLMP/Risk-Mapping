@@ -16,7 +16,7 @@ export default function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+    <div className="bg-[#259add] dark:bg-gray-900 transition-colors duration-300">
       <header className="shadow-sm">
         <nav
           aria-label="Global"
@@ -56,7 +56,7 @@ export default function Nav() {
             ))}
           </div>
 
-          <div className="hidden md:flex">
+          <div className="hidden lg:flex">
             <ToggleTheme />
           </div>
 
