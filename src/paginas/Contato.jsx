@@ -1,5 +1,9 @@
-// src/pages/contato.jsx
 import React, { useState, useMemo } from 'react';
+
+import beatrizImg from '../img/beatriz.jpeg';
+import danielImg from '../img/daniel.jpeg';
+import raphaelImg from '../img/raphael.jpeg';
+import viniciusImg from '../img/vinicius.jpeg';
 
 const Contato = () => {
   const [formData, setFormData] = useState({
@@ -18,28 +22,28 @@ const Contato = () => {
     {
       name: 'Beatriz Claudino',
       role: 'Front End, Melhorias',
-      imageSrc: '../img/beatriz.jpeg',
+      imageSrc: beatrizImg,
       linkedinUrl: 'linkedin.com/in/beatrizclaudino1',
       githubUrl: 'https://github.com/BeatrizClaudino',
     },
     {
       name: 'Daniel Costa',
       role: 'Front End, Configurações',
-      imageSrc: '../img/daniel.jpeg',
+      imageSrc: danielImg,
       linkedinUrl: 'linkedin.com/in/daniel-costa-1b3375232',
       githubUrl: 'https://github.com/Ciberbott',
     },
     {
       name: 'Raphael Martins',
       role: 'Front End, Video e Projeto',
-      imageSrc: '../img/raphael.jpeg',
+      imageSrc: raphaelImg,
       linkedinUrl: 'linkedin.com/in/raphael-martins-12761921b',
       githubUrl: 'https://github.com/RaphaLMP',
     },
     {
       name: 'Vinicius Vasconcelos',
       role: 'Front End',
-      imageSrc: '../img/vinicius.jpeg',
+      imageSrc: viniciusImg,
       linkedinUrl: '#',
       githubUrl: 'https://github.com/vnk1912',
     },
