@@ -137,11 +137,10 @@ export default function Mapa() {
   return (
     <div className="flex flex-col gap-y-6 w-full h-auto">
       {/* Card do clima */}
-      
 
       {/* Mapa e eventos */}
       <div className="flex flex-col lg:flex-row w-full gap-y-6">
-        <div className="w-full h-[500px] md:h-[600px]">
+        <div className="w-full h-[500px] md:h-[600px] rounded-2xl overflow-hidden">
           {position ? (
             <MapContainer
               center={[position.lat, position.lng]}
@@ -153,6 +152,7 @@ export default function Mapa() {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution="© OpenStreetMap contributors"
               />
+
               {/* Posição atual */}
               <Marker position={position}>
                 <Popup>📍 Você está aqui!</Popup>
@@ -203,6 +203,7 @@ export default function Mapa() {
           )}
         </div>
       </div>
+
 
       {/* Lista de eventos */}
       <div className="mt-4">
