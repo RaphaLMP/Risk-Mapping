@@ -43,7 +43,7 @@ export default function Home() {
 
         </div>
 
-        <div className="w-[90%] md:w-[60%] xl:w-[50%] backdrop-blur-md bg-[#259add] dark:bg-[#0e1e2e]/70 rounded-2xl shadow-xl p-6 mb-12 transition-colors duration-500">
+        <div className="w-[90%] md:w-[60%] xl:w-[70%] backdrop-blur-md bg-[#259add] dark:bg-[#0e1e2e]/70 rounded-2xl shadow-xl p-6 mb-12 transition-colors duration-500">
           <MapComponent />
         </div>
 

@@ -18,14 +18,14 @@ const getIcon = (tipo) => ({
 }[tipo] || Home);
 
 const InfoCard = ({ icon: Icon, title, color, children }) => (
-  <div className="border-l-4 p-5 rounded-lg shadow-md hover:shadow-xl transition-all bg-white dark:bg-[#1b263b] dark:text-white" style={{ borderColor: color }}>
-    <div className="flex items-center gap-3 mb-3">
-      <div className="p-2 rounded-lg" style={{ backgroundColor: `${color}20` }}>
-        <Icon size={24} color={color} />
+  <div className="border-l-4 p-4 sm:p-5 rounded-lg shadow-md hover:shadow-xl transition-all bg-white dark:bg-[#1b263b] dark:text-white" style={{ borderColor: color }}>
+    <div className="flex items-center gap-2 sm:gap-3 mb-3">
+      <div className="p-1.5 sm:p-2 rounded-lg" style={{ backgroundColor: `${color}20` }}>
+        <Icon size={20} className="sm:w-6 sm:h-6" color={color} />
       </div>
-      <h2 className="font-bold text-lg" style={{ color }}>{title}</h2>
+      <h2 className="font-bold text-base sm:text-lg" style={{ color }}>{title}</h2>
     </div>
-    <div className="text-sm leading-relaxed">{children}</div>
+    <div className="text-xs sm:text-sm leading-relaxed">{children}</div>
   </div>
 );
 
@@ -35,6 +35,7 @@ const GuiaAlagamento = () => {
   const [error, setError] = useState(null);
   const [tab, setTab] = useState("principais");
   const [shelters, setShelters] = useState({ all: [], hosp: [], pol: [], igr: [] });
+  const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
     if (localStorage.theme === "dark") {
@@ -55,6 +56,7 @@ const GuiaAlagamento = () => {
     navigator.geolocation.getCurrentPosition(
       async (pos) => {
         const { latitude: lat, longitude: lon } = pos.coords;
+        setUserLocation({ lat, lon });
         try {
           const query = `[out:json][timeout:25];(node["amenity"~"hospital|police|fire_station|place_of_worship|school|kindergarten|university"]["access"!="private"](around:10000,${lat},${lon});way["amenity"~"hospital|police|fire_station|place_of_worship|school|kindergarten|university"]["access"!="private"](around:10000,${lat},${lon});relation["amenity"~"hospital|police|fire_station|place_of_worship|school|kindergarten|university"]["access"!="private"](around:10000,${lat},${lon}););out center;`;
           const res = await fetch(`https://overpass-api.de/api/interpreter?data=${encodeURIComponent(query)}`);
@@ -69,6 +71,8 @@ const GuiaAlagamento = () => {
                 id: el.id,
                 nome: el.tags.name || el.tags.amenity,
                 tipo: el.tags.amenity,
+                lat: elLat,
+                lon: elLon,
                 distancia: calcDistance(lat, lon, elLat, elLon),
                 prioridade: PRIORITY[el.tags.amenity] || 5,
               };
@@ -98,14 +102,10 @@ const GuiaAlagamento = () => {
   const data = { principais: shelters.all, hospitais: shelters.hosp, policia: shelters.pol, igrejas: shelters.igr }[tab];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-[#0d1b2a] dark:to-[#1e293b] text-[#0d1b2a] dark:text-white p-6">
-      <button onClick={() => { document.documentElement.classList.toggle("dark"); setIsDark(!isDark); }} className="mb-6 px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded">
-        {isDark ? "Tema claro" : "Tema escuro"}
-      </button>
-
-      <div className="grid sm:grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-[#0d1b2a] dark:to-[#1e293b] text-[#0d1b2a] dark:text-white p-4 sm:p-8 md:p-12">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mt-4 sm:mt-6 lg:mt-8">
         <InfoCard icon={Droplet} title="O que fazer em casos de alagamento" color="#00b4d8">
-          <ul className="list-disc pl-5 space-y-2">
+          <ul className="list-disc pl-4 sm:pl-5 space-y-1.5 sm:space-y-2">
             <li>Evite entrar em áreas alagadas;</li>
             <li>Desligue a energia se a água entrar em casa;</li>
             <li>Não arrisque sua vida para salvar objetos;</li>
@@ -115,39 +115,61 @@ const GuiaAlagamento = () => {
         </InfoCard>
 
         <InfoCard icon={Home} title="Locais seguros próximos" color="#ffb703">
-          <div className="flex border-b border-gray-300 dark:border-gray-600 mb-4">
+          <div className="flex flex-wrap border-b border-gray-300 dark:border-gray-600 mb-3 text-xs">
             {["principais", "hospitais", "policia", "igrejas"].map((t) => (
-              <button key={t} onClick={() => setTab(t)} className={`px-4 py-2 -mb-px border-b-2 ${tab === t ? "border-orange-500 font-bold" : "border-transparent"}`}>
-                {t === "principais" ? "Top 5" : t === "hospitais" ? "Hospitais" : t === "policia" ? "Polícia/Bombeiro" : "Igrejas/Escolas"}
+              <button 
+                key={t} 
+                onClick={() => setTab(t)} 
+                className={`px-2 sm:px-3 py-1.5 -mb-px border-b-2 text-[10px] sm:text-xs ${tab === t ? "border-orange-500 font-bold" : "border-transparent"}`}
+              >
+                {t === "principais" ? "Top 5" : t === "hospitais" ? "Hospitais" : t === "policia" ? "Polícia" : "Igrejas"}
               </button>
             ))}
           </div>
-          {loading ? <p>Buscando locais...</p> : error ? <p>{error}</p> : data.length > 0 ? (
-            <ul className="space-y-2">
-              {data.map((s) => {
-                const Icon = getIcon(s.tipo);
-                return (
-                  <li key={s.id} className="p-2 bg-orange-50 dark:bg-orange-900/20 rounded flex items-center gap-2">
-                    <Icon size={20} /> <strong>{s.nome}</strong> – {s.tipo} ({s.distancia.toFixed(2)} km)
-                  </li>
-                );
-              })}
-            </ul>
-          ) : <p>Nenhum local encontrado.</p>}
+          <div className="max-h-48 sm:max-h-64 overflow-y-auto">
+            {loading ? <p className="text-xs sm:text-sm">Buscando locais...</p> : error ? <p className="text-xs sm:text-sm">{error}</p> : data.length > 0 ? (
+              <ul className="space-y-2">
+                {data.map((s) => {
+                  const Icon = getIcon(s.tipo);
+                  const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${userLocation?.lat},${userLocation?.lon}&destination=${s.lat},${s.lon}`;
+                  return (
+                    <li key={s.id} className="p-2 bg-orange-50 dark:bg-orange-900/20 rounded flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                        <Icon size={14} className="flex-shrink-0 sm:w-4 sm:h-4" />
+                        <div className="min-w-0 flex-1">
+                          <div className="text-xs sm:text-sm font-semibold truncate">{s.nome}</div>
+                          <div className="text-[10px] sm:text-xs text-gray-600 dark:text-gray-400">{s.distancia.toFixed(1)} km</div>
+                        </div>
+                      </div>
+                      <a
+                        href={mapsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="px-2 py-1 bg-blue-500 hover:bg-blue-600 text-white text-[10px] sm:text-xs rounded transition-colors whitespace-nowrap flex-shrink-0"
+                      >
+                        Rota
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : <p className="text-xs sm:text-sm">Nenhum local encontrado.</p>}
+          </div>
         </InfoCard>
 
         <InfoCard icon={Phone} title="Números de emergência" color="#22c55e">
           <ul className="space-y-2">
             {[["Bombeiros", "193"], ["SAMU", "192"], ["Defesa Civil", "199"]].map(([label, num]) => (
               <li key={num} className="flex justify-between items-center p-2 bg-gray-50 dark:bg-gray-800 rounded">
-                <span>{label}</span><strong className="text-lg">{num}</strong>
+                <span className="text-xs sm:text-sm">{label}</span>
+                <strong className="text-base sm:text-lg">{num}</strong>
               </li>
             ))}
           </ul>
         </InfoCard>
 
         <InfoCard icon={Bell} title="Treinamentos disponíveis" color="#ef233c">
-          <ul className="list-disc pl-5 space-y-2">
+          <ul className="list-disc pl-4 sm:pl-5 space-y-1.5 sm:space-y-2">
             <li>Primeiros socorros;</li>
             <li>Desastres naturais: alagamentos, incêndios, deslizamentos;</li>
             <li>Simulados de evacuação;</li>

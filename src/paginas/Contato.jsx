@@ -127,15 +127,12 @@ const Contato = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0d1b2a] transition-colors duration-300">
+    <div className="min-h-screen bg-blue-50 dark:bg-[#1e293b] transition-colors duration-300">
       {/* Cabeçalho da Página */}
-      <div className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-[#1e293b] dark:to-[#0f172a] py-20 transition-colors duration-300">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-        </div>
-      </div>
+      
 
       {/* Seção do Time */}
-      <section className="bg-gradient-to-b from-gray-50 to-white dark:from-[#1e293b] dark:to-[#0d1b2a] py-24 px-4 mx-auto max-w-screen-xl transition-colors duration-300">
+      <section className="bg-blue-50 dark:bg-[#1e293b] py-24 px-4 mx-auto max-w-screen-xl transition-colors duration-300">
         <div className="text-center mb-20">
           <h2 className="mb-8 text-4xl lg:text-5xl tracking-tight font-extrabold text-gray-900 dark:text-white">
             Nosso Time
@@ -190,7 +187,7 @@ const Contato = () => {
       </section>
 
       {/* Formulário de Contato */}
-      <section className="bg-white dark:bg-[#0d1b2a] py-24 px-4 transition-colors duration-300">
+      <section className="bg-blue-50 dark:bg-[#1e293b] py-24 px-4 transition-colors duration-300">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
