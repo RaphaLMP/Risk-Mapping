@@ -49,7 +49,7 @@ const convexHull = (pts) => {
   if (pts.length < 3) return pts;
   const sorted = [...pts].sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);
   const cross = (o, a, b) => (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0]);
-  
+
   const build = (pts) => {
     const hull = [];
     for (const p of pts) {
@@ -58,36 +58,36 @@ const convexHull = (pts) => {
     }
     return hull;
   };
-  
+
   return [...build(sorted), ...build(sorted.reverse())].slice(0, -2);
 };
 
 const findRiskClusters = (markers) => {
   const clusters = [];
   const used = new Set();
-  
+
   Object.keys(CONFIG.icons).forEach(tipo => {
     const typed = markers.map((m, i) => ({ ...m, i })).filter(m => m.tipo === tipo);
-    
+
     typed.forEach((m) => {
       if (used.has(m.i)) return;
       const cluster = [m.i];
       used.add(m.i);
-      
+
       typed.forEach(o => {
         if (!used.has(o.i) && Math.hypot(m.latlng.lat - o.latlng.lat, m.latlng.lng - o.latlng.lng) < 0.015) {
           cluster.push(o.i);
           used.add(o.i);
         }
       });
-      
+
       if (cluster.length >= 5) {
         const cms = cluster.map(i => markers[i]);
         const pts = cms.flatMap(m => getCirclePoints(m.latlng, CONFIG.radius[m.tipo]));
         clusters.push({
           tipo,
           indices: cluster,
-          center: { 
+          center: {
             lat: cms.reduce((s, m) => s + m.latlng.lat, 0) / cms.length,
             lng: cms.reduce((s, m) => s + m.latlng.lng, 0) / cms.length
           },
@@ -97,30 +97,30 @@ const findRiskClusters = (markers) => {
       }
     });
   });
-  
+
   return clusters;
 };
 
 const clusterMarkers = (markers, zoom, risks) => {
   const inRisk = new Set(risks.flatMap(r => r.indices));
   if (zoom >= 14) return markers.map((m, i) => ({ ...m, cluster: [i], isCluster: false }));
-  
+
   const clustered = [];
   const used = new Set();
   const thresh = zoom < 12 ? 0.02 : 0.01;
-  
+
   markers.forEach((m, i) => {
     if (used.has(i) || inRisk.has(i)) return;
     const cluster = [i];
     used.add(i);
-    
+
     markers.forEach((o, j) => {
       if (!used.has(j) && !inRisk.has(j) && Math.hypot(m.latlng.lat - o.latlng.lat, m.latlng.lng - o.latlng.lng) < thresh) {
         cluster.push(j);
         used.add(j);
       }
     });
-    
+
     clustered.push({
       latlng: {
         lat: cluster.reduce((s, idx) => s + markers[idx].latlng.lat, 0) / cluster.length,
@@ -132,7 +132,7 @@ const clusterMarkers = (markers, zoom, risks) => {
       count: cluster.length
     });
   });
-  
+
   return clustered;
 };
 
@@ -140,18 +140,18 @@ const createIcon = (tipo, count, isCluster, isRisk) => {
   const color = CONFIG.colors[tipo];
   const emoji = CONFIG.icons[tipo];
   const size = isRisk ? 64 : isCluster ? 48 : 36;
-  
+
   return L.divIcon({
     className: "custom-pin",
     html: `
-      <div style="background:${color};width:${size}px;height:${size}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${isRisk?32:isCluster?24:20}px;color:white;box-shadow:0 4px 12px rgba(0,0,0,0.6);border:${isRisk?5:3}px solid ${isRisk?'#fbbf24':'white'};${isRisk?'animation:pulse 2s infinite;':''}">
+      <div style="background:${color};width:${size}px;height:${size}px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:${isRisk ? 32 : isCluster ? 24 : 20}px;color:white;box-shadow:0 4px 12px rgba(0,0,0,0.6);border:${isRisk ? 5 : 3}px solid ${isRisk ? '#fbbf24' : 'white'};${isRisk ? 'animation:pulse 2s infinite;' : ''}">
         ${emoji}
-        ${isCluster || isRisk ? `<span style="position:absolute;top:-8px;right:-8px;background:${isRisk?'#fbbf24':'white'};color:${isRisk?'#000':color};font-size:${isRisk?14:12}px;font-weight:bold;width:${isRisk?28:24}px;height:${isRisk?28:24}px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3)">${count}</span>`:''} 
+        ${isCluster || isRisk ? `<span style="position:absolute;top:-8px;right:-8px;background:${isRisk ? '#fbbf24' : 'white'};color:${isRisk ? '#000' : color};font-size:${isRisk ? 14 : 12}px;font-weight:bold;width:${isRisk ? 28 : 24}px;height:${isRisk ? 28 : 24}px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.3)">${count}</span>` : ''} 
       </div>
       <style>@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}</style>
     `,
     iconSize: [size, size],
-    iconAnchor: [size/2, size/2],
+    iconAnchor: [size / 2, size / 2],
   });
 };
 
@@ -227,7 +227,7 @@ export default function Mapa() {
               ))}
 
               {clustered.map((m, i) => (
-                <Marker key={`m-${i}`} position={m.latlng} icon={createIcon(m.tipo, m.count, m.isCluster, false)} 
+                <Marker key={`m-${i}`} position={m.latlng} icon={createIcon(m.tipo, m.count, m.isCluster, false)}
                   eventHandlers={{ click: () => m.isCluster && mapRef.current?.flyTo(m.latlng, Math.min(zoom + 2, 18), { duration: 0.5 }) }}
                   zIndexOffset={m.isCluster ? 100 : 0}>
                   <Popup>
@@ -252,7 +252,7 @@ export default function Mapa() {
                 <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-lg p-6 shadow-2xl max-w-sm w-full mx-4 pointer-events-auto">
                   <button onClick={cancel} className="absolute top-3 right-3 text-gray-500 text-2xl">×</button>
                   <h3 className="text-xl font-bold mb-4 text-slate-800 dark:text-white">Adicionar Evento</h3>
-                  
+
                   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Tipo de desastre:</label>
                   <div className="grid grid-cols-2 gap-3 mb-4">
                     {Object.keys(CONFIG.icons).map((t) => (
@@ -280,25 +280,44 @@ export default function Mapa() {
       </div>
 
       <div>
-        <h2 className="text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2">Eventos no mapa:</h2>
+        <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
+          Eventos no mapa:
+        </h2>
+
         {markers.length > 0 ? (
           <div className="flex flex-wrap gap-2">
             {markers.map((m, i) => (
-              <div key={i} className="rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm cursor-pointer hover:opacity-80 hover:scale-105" 
-                style={{ backgroundColor: CONFIG.colors[m.tipo] }} onClick={() => flyTo(m.latlng)}>
+              <div
+                key={i}
+                className="rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm cursor-pointer hover:opacity-80 hover:scale-105 transition-transform"
+                style={{ backgroundColor: CONFIG.colors[m.tipo] }}
+                onClick={() => flyTo(m.latlng)}
+              >
                 <span>{CONFIG.icons[m.tipo]}</span> {m.tipo}
               </div>
             ))}
           </div>
-        ) : <p className="text-sm text-slate-500">Nenhum evento. Clique no mapa para adicionar.</p>}
-        
+        ) : (
+          <p className="text-sm text-slate-700 dark:text-slate-400">
+            Nenhum evento. Clique no mapa para adicionar.
+          </p>
+        )}
+
         {risks.length > 0 && (
-          <div className="mt-4 bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded">
+          <div className="mt-4 bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 p-4 rounded-lg">
             <div className="flex items-center gap-2 mb-2">
               <span className="text-xl">⚠️</span>
-              <h3 className="font-bold text-yellow-800">Áreas de Risco Identificadas</h3>
+              <h3 className="font-bold text-yellow-800 dark:text-yellow-300">
+                Áreas de Risco Identificadas
+              </h3>
             </div>
-            <p className="text-sm text-yellow-700">{risks.length} {risks.length === 1 ? 'região apresenta' : 'regiões apresentam'} concentração crítica de eventos.</p>
+            <p className="text-sm text-yellow-700 dark:text-yellow-200">
+              {risks.length}{" "}
+              {risks.length === 1
+                ? "região apresenta"
+                : "regiões apresentam"}{" "}
+              concentração crítica de eventos.
+            </p>
           </div>
         )}
       </div>
