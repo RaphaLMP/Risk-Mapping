@@ -33,8 +33,8 @@ const GuiaAlagamento = () => {
   const [isDark, setIsDark] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [tab, setTab] = useState("principais");
-  const [shelters, setShelters] = useState({ all: [], hosp: [], pol: [], igr: [] });
+  const [tab, setTab] = useState("hospitais");
+  const [shelters, setShelters] = useState({ hosp: [], pol: [], igr: [], esc: [] });
   const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
@@ -81,10 +81,10 @@ const GuiaAlagamento = () => {
             .sort((a, b) => a.prioridade - b.prioridade || a.distancia - b.distancia);
 
           setShelters({
-            all: places.slice(0, 5),
             hosp: places.filter((p) => p.tipo === "hospital").slice(0, 5),
             pol: places.filter((p) => p.tipo === "police" || p.tipo === "fire_station").slice(0, 5),
-            igr: places.filter((p) => p.tipo === "place_of_worship" || p.tipo === "school" || p.tipo === "kindergarten" || p.tipo === "university").slice(0, 5),
+            igr: places.filter((p) => p.tipo === "place_of_worship").slice(0, 5),
+            esc: places.filter((p) => p.tipo === "school" || p.tipo === "kindergarten" || p.tipo === "university").slice(0, 5),
           });
         } catch (err) {
           setError("Erro ao buscar locais seguros.");
@@ -99,7 +99,7 @@ const GuiaAlagamento = () => {
     );
   }, []);
 
-  const data = { principais: shelters.all, hospitais: shelters.hosp, policia: shelters.pol, igrejas: shelters.igr }[tab];
+  const data = { hospitais: shelters.hosp, policia: shelters.pol, igrejas: shelters.igr, escolas: shelters.esc }[tab];
 
   return (
     <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-[#0d1b2a] dark:to-[#1e293b] text-[#0d1b2a] dark:text-white p-4 sm:p-8 md:p-12">
@@ -108,13 +108,13 @@ const GuiaAlagamento = () => {
           <div className="w-full">
             <InfoCard icon={Home} title="Locais seguros próximos" color="#ffb703">
               <div className="flex flex-wrap border-b border-gray-300 dark:border-gray-600 mb-3 text-xs">
-                {["principais", "hospitais", "policia", "igrejas"].map((t) => (
+                {["hospitais", "policia", "igrejas", "escolas"].map((t) => (
                   <button
                     key={t}
                     onClick={() => setTab(t)}
                     className={`px-2 sm:px-3 py-1.5 -mb-px border-b-2 text-[10px] sm:text-xs ${tab === t ? "border-orange-500 font-bold" : "border-transparent"}`}
                   >
-                    {t === "principais" ? "Top 5" : t === "hospitais" ? "Hospitais" : t === "policia" ? "Polícia" : "Igrejas"}
+                    {t === "hospitais" ? "Hospitais" : t === "policia" ? "Polícia" : t === "igrejas" ? "Igrejas" : "Escolas"}
                   </button>
                 ))}
               </div>
