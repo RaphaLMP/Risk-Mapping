@@ -31,7 +31,7 @@ export default function Home() {
         dark:from-[#132235] dark:via-[#1a2f46] dark:to-[#233b56] transition-all duration-500 grid-rows-2 gap-6"
     >
       <div className="grid-row-3 gap-3 flex justify-center h-[400px] bg-[#5e90bbab] dark:bg-[#22415A] w-full">
-        <div className="h-full flex flex-col xl:flex-row items-center justify-center w-[90%] sm:w-[70%] md:w-[60%] xl:w-[50%] grid-rows-2 gap-5">
+        <div className="h-full flex flex-col xl:flex-row items-center justify-center w-[90%] lg:w-[70%] xl:w-[50%] grid-rows-2 gap-5">
           <div className="flex items-center">
             {/* Nubi animado */}
             <img
@@ -51,7 +51,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-[90%] md:w-[60%] xl:w-[70%] backdrop-blur-md bg-[#259add] dark:bg-[#0e1e2e]/70 rounded-2xl shadow-xl p-6 mb-12 transition-colors duration-500">
+      <div className="w-[90%] lg:w-[70%] xl:w-[70%] backdrop-blur-md bg-[#259add] dark:bg-[#0e1e2e]/70 rounded-2xl shadow-xl p-6 mb-12 transition-colors duration-500">
         <MapComponent />
       </div>
 
