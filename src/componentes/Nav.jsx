@@ -17,8 +17,8 @@ export default function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
-    <div className="bg-[#1890d6] dark:bg-gray-900 transition-colors duration-300">
-      <header className="shadow-sm">
+    <div className="bg-[#0061b6ab] dark:bg-gray-900 transition-colors duration-300">
+      <header className="">
         <nav
           aria-label="Global"
           className="flex items-center justify-between p-4 lg:px-8"

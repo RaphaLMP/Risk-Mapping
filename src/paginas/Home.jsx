@@ -30,7 +30,7 @@ export default function Home() {
       className="w-full flex flex-col items-center h-full bg-white dark:bg-gradient-to-br 
         dark:from-[#132235] dark:via-[#1a2f46] dark:to-[#233b56] transition-all duration-500 grid-rows-2 gap-6"
     >
-      <div className="grid-row-3 gap-3 flex justify-center h-[400px] bg-[#5e90bbab] dark:bg-[#22415A] w-full">
+      <div className="grid-row-3 gap-3 flex justify-center h-[400px] bg-[#0b5392ab] dark:bg-[#22415A] w-full">
         <div className="h-full flex flex-col xl:flex-row items-center justify-center w-[90%] lg:w-[70%] xl:w-[50%] grid-rows-2 gap-5">
           <div className="flex items-center">
             {/* Nubi animado */}
