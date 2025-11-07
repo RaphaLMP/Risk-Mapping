@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import logo from '../img/logo.png'
 import logoDark from '../img/logo_dark.png'
 import ToggleTheme from './Togle'
@@ -15,20 +15,31 @@ const navigation = [
 
 export default function Nav() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const location = useLocation()
+  const isHome = location.pathname === '/'
 
   return (
-    <div className="bg-[#1890d6] dark:bg-gray-900 transition-colors duration-300">
-      <header className="shadow-sm">
+    <div className={`${isHome ? 'absolute top-0 left-0 right-0 z-[1100]' : 'relative'} transition-colors duration-300`}>
+      <header className={isHome ? '' : 'shadow-sm bg-[#1890d6] dark:bg-gray-900'}>
         <nav
           aria-label="Global"
-          className="flex items-center justify-between p-4 lg:px-8"
+          className={`flex items-center justify-between p-4 lg:px-8 ${
+            isHome 
+              ? 'bg-gradient-to-b from-black/40 to-transparent backdrop-blur-sm' 
+              : ''
+          }`}
         >
           <div className="flex lg:flex-1">
             <Link to="/" className="-m-1.5 p-1.5 flex items-center gap-3">
               <span className="sr-only">Risk Map</span>
-              {/* <img alt="logo" src={logoDark} className="w-20 lg:w-16 dark:hidden" /> */}
-              <img alt="logo" src={logo} className="w-20 lg:w-16 block" />
-              <span className="text-xl font-bold text-white">
+              <img 
+                alt="logo" 
+                src={logo} 
+                className="w-20 lg:w-16 drop-shadow-lg" 
+              />
+              <span className={`text-xl font-bold drop-shadow-lg ${
+                isHome ? 'text-white' : 'text-white'
+              }`}>
                 Risk Mapping
               </span>
             </Link>
@@ -38,7 +49,7 @@ export default function Nav() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(true)}
-              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-800 dark:text-gray-200"
+              className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-white"
             >
               <span className="sr-only">Open main menu</span>
               <Bars3Icon aria-hidden="true" className="size-6" />
@@ -50,7 +61,11 @@ export default function Nav() {
               <Link
                 key={item.name}
                 to={item.to}
-                className="px-3 py-2 rounded-xl bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition-all duration-300 shadow-md hover:shadow-lg text-sm font-semibold text-gray-800 dark:text-white"
+                className={`px-3 py-2 rounded-xl transition-all duration-300 shadow-md hover:shadow-lg text-sm font-semibold ${
+                  isHome
+                    ? 'bg-white/20 backdrop-blur-md hover:bg-white/30 text-white'
+                    : 'bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 text-gray-800 dark:text-white'
+                }`}
               >
                 {item.name}
               </Link>
@@ -64,7 +79,11 @@ export default function Nav() {
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link
               to="/login"
-              className="text-sm font-semibold text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-300"
+              className={`text-sm font-semibold transition-colors ${
+                isHome
+                  ? 'text-white hover:text-blue-300 drop-shadow-lg'
+                  : 'text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-300'
+              }`}
             >
               Log in <span aria-hidden="true">&rarr;</span>
             </Link>

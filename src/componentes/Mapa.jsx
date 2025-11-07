@@ -155,7 +155,7 @@ const createIcon = (tipo, count, isCluster, isRisk) => {
   });
 };
 
-export default function Mapa() {
+export default function MapComponent() {
   const [pos, setPos] = useState(null);
   const [markers, setMarkers] = useState([]);
   const [tipo, setTipo] = useState("Tempestade");
@@ -198,129 +198,175 @@ export default function Mapa() {
   const clustered = clusterMarkers(markers, zoom, risks);
 
   return (
-    <div className="flex flex-col gap-6 w-full">
-      <div className="relative w-full h-[500px] md:h-[600px] rounded-2xl overflow-hidden">
-        {pos ? (
-          <>
-            <MapContainer center={[pos.lat, pos.lng]} zoom={14} style={{ height: "100%", width: "100%" }} ref={mapRef}>
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <ZoomTracker setZoom={setZoom} />
-              <MapClickHandler onClick={handleClick} />
+    <div className="relative w-full h-full">
+      {pos ? (
+        <>
+          <MapContainer center={[pos.lat, pos.lng]} zoom={14} style={{ height: "100%", width: "100%" }} ref={mapRef}>
+            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+            <ZoomTracker setZoom={setZoom} />
+            <MapClickHandler onClick={handleClick} />
 
-              {risks.map((r, i) => (
-                <Polygon key={`risk-${i}`} positions={r.area} pathOptions={{ color: '#fbbf24', fillColor: CONFIG.colors[r.tipo], fillOpacity: 0.25, weight: 3, dashArray: '10, 10' }} />
-              ))}
+            {risks.map((r, i) => (
+              <Polygon key={`risk-${i}`} positions={r.area} pathOptions={{ color: '#fbbf24', fillColor: CONFIG.colors[r.tipo], fillOpacity: 0.25, weight: 3, dashArray: '10, 10' }} />
+            ))}
 
-              {risks.map((r, i) => (
-                <Marker key={`rm-${i}`} position={r.center} icon={createIcon(r.tipo, r.count, true, true)} zIndexOffset={200}>
-                  <Popup>
-                    <div className="min-w-[220px]">
-                      <div className="flex items-center gap-2 mb-2">
-                        <span className="text-2xl">⚠️</span>
-                        <div className="font-bold text-lg" style={{ color: CONFIG.colors[r.tipo] }}>ÁREA DE RISCO</div>
-                      </div>
-                      <p className="text-sm text-gray-700 mb-2">{r.count} eventos de <strong>{r.tipo}</strong> próximos</p>
-                      <div className="bg-yellow-100 border-l-4 border-yellow-500 p-2 text-xs">Esta região apresenta alto risco. Evite circular pela área.</div>
+            {risks.map((r, i) => (
+              <Marker key={`rm-${i}`} position={r.center} icon={createIcon(r.tipo, r.count, true, true)} zIndexOffset={200}>
+                <Popup>
+                  <div className="min-w-[220px]">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-2xl">⚠️</span>
+                      <div className="font-bold text-lg" style={{ color: CONFIG.colors[r.tipo] }}>ÁREA DE RISCO</div>
                     </div>
-                  </Popup>
-                </Marker>
-              ))}
-
-              {clustered.map((m, i) => (
-                <Marker key={`m-${i}`} position={m.latlng} icon={createIcon(m.tipo, m.count, m.isCluster, false)}
-                  eventHandlers={{ click: () => m.isCluster && mapRef.current?.flyTo(m.latlng, Math.min(zoom + 2, 18), { duration: 0.5 }) }}
-                  zIndexOffset={m.isCluster ? 100 : 0}>
-                  <Popup>
-                    {m.isCluster ? (
-                      <div><div className="font-semibold text-lg mb-2">{m.count} eventos agrupados</div><p className="text-sm text-gray-600">Aproxime o zoom</p></div>
-                    ) : (
-                      <div>
-                        <div className="font-semibold text-lg mb-2" style={{ color: CONFIG.colors[m.tipo] }}>{CONFIG.icons[m.tipo]} {m.tipo}</div>
-                        {markers[m.cluster[0]].description && <p className="text-sm text-gray-700 mb-3">{markers[m.cluster[0]].description}</p>}
-                        <button onClick={() => remove(m.cluster[0])} className="mt-2 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded">Remover</button>
-                      </div>
-                    )}
-                  </Popup>
-                </Marker>
-              ))}
-
-              <Marker position={pos} zIndexOffset={1000}><Popup>📍 Você está aqui!</Popup></Marker>
-            </MapContainer>
-
-            {modal && (
-              <div className="absolute inset-0 flex items-center justify-center z-[1001] rounded-2xl pointer-events-none">
-                <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm rounded-lg p-6 shadow-2xl max-w-sm w-full mx-4 pointer-events-auto">
-                  <button onClick={cancel} className="absolute top-3 right-3 text-gray-500 text-2xl">×</button>
-                  <h3 className="text-xl font-bold mb-4 text-slate-800 dark:text-white">Adicionar Evento</h3>
-
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Tipo de desastre:</label>
-                  <div className="grid grid-cols-2 gap-3 mb-4">
-                    {Object.keys(CONFIG.icons).map((t) => (
-                      <button key={t} onClick={() => setTipo(t)} className={`p-4 rounded-lg border-2 flex flex-col items-center gap-2 ${tipo === t ? 'border-blue-600 bg-blue-50 dark:bg-blue-900/30' : 'border-gray-300 dark:border-gray-600'}`}>
-                        <span className="text-3xl">{CONFIG.icons[t]}</span>
-                        <span className="text-sm font-medium">{t}</span>
-                      </button>
-                    ))}
+                    <p className="text-sm text-gray-700 mb-2">{r.count} eventos de <strong>{r.tipo}</strong> próximos</p>
+                    <div className="bg-yellow-100 border-l-4 border-yellow-500 p-2 text-xs">Esta região apresenta alto risco. Evite circular pela área.</div>
                   </div>
+                </Popup>
+              </Marker>
+            ))}
 
-                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Descrição:</label>
-                  <textarea value={desc} onChange={(e) => setDesc(e.target.value)} placeholder="Descreva o evento..." className="w-full px-3 py-2 border rounded-lg resize-none mb-4 dark:bg-slate-700 dark:text-white" rows="3" />
+            {clustered.map((m, i) => (
+              <Marker key={`m-${i}`} position={m.latlng} icon={createIcon(m.tipo, m.count, m.isCluster, false)}
+                eventHandlers={{ click: () => m.isCluster && mapRef.current?.flyTo(m.latlng, Math.min(zoom + 2, 18), { duration: 0.5 }) }}
+                zIndexOffset={m.isCluster ? 100 : 0}>
+                <Popup>
+                  {m.isCluster ? (
+                    <div><div className="font-semibold text-lg mb-2">{m.count} eventos agrupados</div><p className="text-sm text-gray-600">Aproxime o zoom</p></div>
+                  ) : (
+                    <div>
+                      <div className="font-semibold text-lg mb-2" style={{ color: CONFIG.colors[m.tipo] }}>{CONFIG.icons[m.tipo]} {m.tipo}</div>
+                      {markers[m.cluster[0]].description && <p className="text-sm text-gray-700 mb-3">{markers[m.cluster[0]].description}</p>}
+                      <button onClick={() => remove(m.cluster[0])} className="mt-2 px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-sm">Remover</button>
+                    </div>
+                  )}
+                </Popup>
+              </Marker>
+            ))}
 
-                  <div className="flex gap-3">
-                    <button onClick={confirm} className="flex-1 px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium">✓ Confirmar</button>
-                    <button onClick={cancel} className="flex-1 px-4 py-3 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg font-medium">Cancelar</button>
+            <Marker position={pos} zIndexOffset={1000}><Popup>📍 Você está aqui!</Popup></Marker>
+          </MapContainer>
+
+          {/* Legenda flutuante no canto superior esquerdo */}
+          <div className="absolute top-40 left-4 z-[1000] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-xl shadow-lg p-3 max-w-[200px]">
+            <h3 className="text-xs font-bold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-1">
+              <span>📍</span> Tipos de Evento
+            </h3>
+            <div className="space-y-1.5">
+              {Object.keys(CONFIG.icons).map((t) => (
+                <div key={t} className="flex items-center gap-2 text-xs">
+                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: CONFIG.colors[t] }}>
+                    <span className="text-sm">{CONFIG.icons[t]}</span>
+                  </div>
+                  <span className="text-slate-700 dark:text-slate-300 font-medium">{t}</span>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-600">
+              <div className="flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center bg-amber-400 border-2 border-amber-600">
+                  <span className="text-xs font-bold">!</span>
+                </div>
+                <span className="font-medium">Área de Risco</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Barra de eventos na parte inferior */}
+          <div className="absolute bottom-0 left-0 right-0 z-[1000] bg-gradient-to-t from-black/60 to-transparent pt-8 pb-4 px-4">
+            <div className="max-w-6xl mx-auto">
+              {markers.length > 0 ? (
+                <div className="flex flex-wrap gap-2 justify-center mb-2">
+                  {markers.map((m, i) => (
+                    <button
+                      key={i}
+                      className="group relative rounded-full pl-3 pr-8 py-2 text-sm font-medium text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center gap-2"
+                      style={{ backgroundColor: CONFIG.colors[m.tipo] }}
+                      onClick={() => flyTo(m.latlng)}
+                    >
+                      <span className="text-base">{CONFIG.icons[m.tipo]}</span>
+                      <span className="font-semibold">{m.tipo}</span>
+                      {m.description && <span className="text-xs opacity-80 max-w-[100px] truncate">- {m.description}</span>}
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          remove(i);
+                        }}
+                        className="absolute right-1.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-colors"
+                      >
+                        ×
+                      </button>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-center text-white/80 text-sm py-2 font-medium">
+                  Clique no mapa para adicionar eventos
+                </p>
+              )}
+
+              {risks.length > 0 && (
+                <div className="flex justify-center">
+                  <div className="inline-flex items-center gap-2 bg-amber-500/90 text-amber-950 px-4 py-2 rounded-full text-xs font-bold shadow-lg">
+                    <span className="text-base">⚠️</span>
+                    <span>{risks.length} {risks.length === 1 ? "área de risco detectada" : "áreas de risco detectadas"}</span>
                   </div>
                 </div>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="flex items-center justify-center h-full"><p className="text-lg">Carregando localização...</p></div>
-        )}
-      </div>
-
-      <div>
-        <h2 className="text-sm font-semibold text-slate-700 dark:text-slate-200 mb-2">
-          Eventos no mapa:
-        </h2>
-
-        {markers.length > 0 ? (
-          <div className="flex flex-wrap gap-2">
-            {markers.map((m, i) => (
-              <div
-                key={i}
-                className="rounded-full px-4 py-2 text-sm font-medium text-white shadow-sm cursor-pointer hover:opacity-80 hover:scale-105 transition-transform"
-                style={{ backgroundColor: CONFIG.colors[m.tipo] }}
-                onClick={() => flyTo(m.latlng)}
-              >
-                <span>{CONFIG.icons[m.tipo]}</span> {m.tipo}
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p className="text-sm text-slate-700 dark:text-slate-400">
-            Nenhum evento. Clique no mapa para adicionar.
-          </p>
-        )}
-
-        {risks.length > 0 && (
-          <div className="mt-4 bg-yellow-50 dark:bg-yellow-900/30 border-l-4 border-yellow-400 p-4 rounded-lg">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-xl">⚠️</span>
-              <h3 className="font-bold text-yellow-800 dark:text-yellow-300">
-                Áreas de Risco Identificadas
-              </h3>
+              )}
             </div>
-            <p className="text-sm text-yellow-700 dark:text-yellow-200">
-              {risks.length}{" "}
-              {risks.length === 1
-                ? "região apresenta"
-                : "regiões apresentam"}{" "}
-              concentração crítica de eventos.
-            </p>
           </div>
-        )}
-      </div>
+
+          {/* Modal de adicionar evento */}
+          {modal && (
+            <div className="absolute inset-0 flex items-center justify-center z-[1001] bg-black/40 backdrop-blur-sm">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-2xl max-w-md w-full mx-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-slate-800 dark:text-white">Adicionar Evento</h3>
+                  <button onClick={cancel} className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-2xl transition-colors">×</button>
+                </div>
+
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-3">Tipo de desastre:</label>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  {Object.keys(CONFIG.icons).map((t) => (
+                    <button 
+                      key={t} 
+                      onClick={() => setTipo(t)} 
+                      className={`p-4 rounded-xl border-2 flex flex-col items-center gap-2 transition-all ${tipo === t ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-105 shadow-md' : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 hover:scale-102'}`}
+                    >
+                      <span className="text-3xl">{CONFIG.icons[t]}</span>
+                      <span className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t}</span>
+                    </button>
+                  ))}
+                </div>
+
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Descrição (opcional):</label>
+                <textarea 
+                  value={desc} 
+                  onChange={(e) => setDesc(e.target.value)} 
+                  placeholder="Ex: Rua alagada, poste caído..." 
+                  className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl resize-none mb-4 dark:bg-slate-700 dark:text-white text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all" 
+                  rows="3" 
+                />
+
+                <div className="flex gap-3">
+                  <button onClick={confirm} className="flex-1 px-4 py-3 bg-green-600 hover:bg-green-700 text-white rounded-xl font-semibold transition-all hover:shadow-lg">
+                    ✓ Confirmar
+                  </button>
+                  <button onClick={cancel} className="flex-1 px-4 py-3 bg-gray-300 hover:bg-gray-400 dark:bg-gray-600 dark:hover:bg-gray-500 text-gray-800 dark:text-white rounded-xl font-semibold transition-all hover:shadow-lg">
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
+      ) : (
+        <div className="flex items-center justify-center h-full bg-slate-100 dark:bg-slate-900">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <p className="text-lg text-slate-700 dark:text-slate-300">Carregando localização...</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
