@@ -41,7 +41,7 @@ export default function EducaCidade() {
 
     return (
         <div className="flex items-center flex-col bg-center w-full dark:bg-[#1e293b]">
-            <div className="w-full h-[250px] lg:h-full flex flex-col items-center justify-center bg-[#0061b6ab] dark:bg-[#22415A]">
+            <div className="w-full h-[250px] lg:h-full flex flex-col items-center justify-center bg-gradient-to-r from-[#2da0af] to-blue-500 dark:bg-[#22415A]">
                 <div className="flex w-[90%] md:w-[70%] flex-col items-center ">
                     <div className="w-full flex lg:items-center justify-center space-x-6">
                         <div className="hidden sm:flex flex-col text-left justify-center">
@@ -52,7 +52,7 @@ export default function EducaCidade() {
                             <p className="text-2xl xl:text-3xl font-bold text-amber-50">Nubi</p>
                             <p className="text-2xl xl:text-3xl font-bold text-amber-50">conselhos </p>
                         </div>
-                        
+
                         <img
                             className={`h-[100px] w-[140px] xl:h-[250px] xl:w-[360px] transform transition-all duration-1000 
                           ${animateNubi ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}
@@ -68,10 +68,29 @@ export default function EducaCidade() {
             <svg
                 viewBox="0 0 1889 200"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-full fill-[#0061b6ab] dark:fill-[#22415A]"
+                className="w-full"
             >
-                <path d="M0 51 C462 51 462 153 924 153 C1414 153 1414 68 1905 68 L1905 0 L0 0 Z" />
+                <defs>
+                    {/* Gradiente para modo claro */}
+                    <linearGradient id="darkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#2da0af" /> {/* from-green-400 */}
+                        <stop offset="100%" stopColor="#3b82f6" /> {/* to-blue-500 */}
+                    </linearGradient>
+
+                   <linearGradient id="lightGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#2da0af" /> {/* from-green-400 */}
+                        <stop offset="100%" stopColor="#3b82f6" /> {/* to-blue-500 */}
+                    </linearGradient>
+                </defs>
+
+                {/* Caminho da onda */}
+                <path
+                    d="M0 51 C462 51 462 153 924 153 C1414 153 1414 68 1905 68 L1905 0 L0 0 Z"
+                    fill="url(#lightGradient)"
+                    className="dark:fill-[url(#darkGradient)] transition-all duration-500"
+                />
             </svg>
+
 
             <div className="w-[90%] flex items-center flex-col gap-y-8 mt-8">
                 <div className="w-full h-[400px] flex items-center justify-center max-w-3xl aspect-video rounded-xl overflow-hidden shadow-lg">
