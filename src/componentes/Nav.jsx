@@ -56,7 +56,7 @@ export default function Nav() {
             </button>
           </div>
 
-          <div className="hidden lg:flex lg:gap-x-4">
+          <div className="hidden lg:flex lg:flex-1 lg:justify-center lg:gap-x-4">
             {navigation.map((item) => (
               <Link
                 key={item.name}
@@ -72,21 +72,8 @@ export default function Nav() {
             ))}
           </div>
 
-          <div className="hidden lg:flex">
-            <ToggleTheme />
-          </div>
-
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-            <Link
-              to="/login"
-              className={`text-sm font-semibold transition-colors ${
-                isHome
-                  ? 'text-white hover:text-blue-300 drop-shadow-lg'
-                  : 'text-gray-800 dark:text-white hover:text-blue-600 dark:hover:text-blue-300'
-              }`}
-            >
-              Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+            <ToggleTheme />
           </div>
         </nav>
 
@@ -130,7 +117,7 @@ export default function Nav() {
                 <div>
                   <ToggleTheme />
                 </div>
-                <div className="py-6">
+                <div className="py-6 invisible">
                   <Link
                     to="/login"
                     onClick={() => setMobileMenuOpen(false)}
