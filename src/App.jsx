@@ -1,7 +1,7 @@
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
-import Home from './paginas/Home'
-import Sobre from './paginas/Sobre'
-import Contato from './paginas/Contato'
+import { Routes, Route } from 'react-router-dom';
+import Home from './paginas/Home';
+import Sobre from './paginas/Sobre';
+import Contato from './paginas/Contato';
 import Layout from './paginas/Layout';
 import GuiaAlagamento from './paginas/GuiaSegurança';
 import EducaCidade from './paginas/EducaCidade';
@@ -20,4 +20,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
