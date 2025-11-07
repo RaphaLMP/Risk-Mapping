@@ -41,40 +41,82 @@ export default function EducaCidade() {
 
     return (
         <div className="flex items-center flex-col bg-center w-full dark:bg-[#1e293b]">
-            <div className="w-full h-[400px] flex flex-col items-center justify-center grid-rows-2 gap-6 bg-[#5e90bbab] dark:bg-[#22415A]">
-                <div className="flex items-center">
-                    <img
-                        className={`h-[120px] w-[120px] xl:h-[250px] xl:w-[250px] transform transition-all duration-1000 
+            <div className="w-full h-[250px] lg:h-full flex flex-col items-center justify-center bg-gradient-to-r from-[#2da0af] to-blue-500 dark:bg-[#22415A]">
+                <div className="flex w-[90%] md:w-[70%] flex-col items-center ">
+                    <div className="w-full flex lg:items-center justify-center space-x-6">
+                        <div className="hidden sm:flex flex-col text-left justify-center">
+                            <p className="text-2xl xl:text-3xl font-bold text-amber-50">Nubi conselhos</p>
+                        </div>
+
+                        <div className="flex flex-col sm:hidden text-left justify-center">
+                            <p className="text-2xl xl:text-3xl font-bold text-amber-50">Nubi</p>
+                            <p className="text-2xl xl:text-3xl font-bold text-amber-50">conselhos </p>
+                        </div>
+
+                        <img
+                            className={`h-[100px] w-[140px] xl:h-[250px] xl:w-[360px] transform transition-all duration-1000 
                           ${animateNubi ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-20"}`}
-                        src={img4}
-                        alt="Nubi"
-                    />
-                    <div className="text-blue-950 dark:text-amber-50 lg:w-[50%] ml-4">
-                        <p className="text-2xl xl:text-3xl font-semibold">Nubi conselhos</p>
+                            src={img4}
+                            alt="Nubi"
+                        />
+                    </div>
+                    <div className="w-full bg-[#1a3246] border border-cyan-300 p-5 rounded-2xl text-amber-50 font-semibold break-words text-left lg:w-[50%] ml-4">
                         <p className="text-lg xl:text-lg">{frase}</p>
                     </div>
                 </div>
             </div>
-            <div className="w-full bg-green-400flex items-center justify-center max-w-3xl aspect-video rounded-xl overflow-hidden shadow-lg">
-                <iframe
-                    width="100%"
-                    height="100%"
-                    src="https://www.youtube.com/embed/aIR6khgsc3A"
-                    title="Entenda os riscos das enchentes"
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                ></iframe>
+            <svg
+                viewBox="0 0 1889 200"
+                xmlns="http://www.w3.org/2000/svg"
+                className="w-full"
+            >
+                <defs>
+                    {/* Gradiente para modo claro */}
+                    <linearGradient id="darkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#2da0af" /> {/* from-green-400 */}
+                        <stop offset="100%" stopColor="#3b82f6" /> {/* to-blue-500 */}
+                    </linearGradient>
+
+                   <linearGradient id="lightGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#2da0af" /> {/* from-green-400 */}
+                        <stop offset="100%" stopColor="#3b82f6" /> {/* to-blue-500 */}
+                    </linearGradient>
+                </defs>
+
+                {/* Caminho da onda */}
+                <path
+                    d="M0 51 C462 51 462 153 924 153 C1414 153 1414 68 1905 68 L1905 0 L0 0 Z"
+                    fill="url(#lightGradient)"
+                    className="dark:fill-[url(#darkGradient)] transition-all duration-500"
+                />
+            </svg>
+
+
+            <div className="w-[90%] flex items-center flex-col gap-y-8 mt-8">
+                <div className="w-full h-[400px] flex items-center justify-center max-w-3xl aspect-video rounded-xl overflow-hidden shadow-lg">
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        src="https://www.youtube.com/embed/aIR6khgsc3A"
+                        title="Entenda os riscos das enchentes"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
+                </div>
+                <div>
+                    <img className="h-[250px] lg:h-[400px] w-[600px]" src={img} alt="" />
+                </div>
+                <div>
+                    <img className="h-[250px] lg:h-[400px] w-[600px]" src={img1} alt="" />
+                </div>
+                <div>
+                    <img className="h-[250px] lg:h-[400px] w-[600px]" src={img2} alt="" />
+                </div>
+                <div>
+                    <img className="h-[250px] lg:h-[400px] w-[600px]" src={img3} alt="" />
+                </div>
             </div>
-            <div>
-                <img className="h-[400px] w-[600px]" src={img} alt="" />
-                <p>Moradores de regiões propensas a inundações devem manter-se informados sobre as condições meteorológicas</p>
-                <p>No Risk Mapping verifique quantidade de chuva, temperatura, e quantidade de alertas de alagamento</p>
-                <p>Verifique locais seguros próximos como: escolas, igrejas, departamento de policia e hospitais</p>
-            </div>
-            <img className="h-[400px] w-[600px]" src={img1} alt="" />
-            <img className="h-[400px] w-[600px]" src={img2} alt="" />
-            <img className="h-[400px] w-[600px]" src={img3} alt="" />
         </div >
     );
 }
