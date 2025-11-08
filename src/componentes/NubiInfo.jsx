@@ -9,11 +9,7 @@ export default function NubiInfo() {
   const [darkMode, setDarkMode] = useState(false);
   const [position, setPosition] = useState(null);
   const [animateCard, setAnimateCard] = useState(false);
-  const [isCardOpen, setIsCardOpen] = useState(() => {
-    const isHome = location.pathname === "/" || location.pathname === "/home";
-    const isDesktop = window.innerWidth >= 1024;
-    return isHome && isDesktop;
-  });
+  const [isCardOpen, setIsCardOpen] = useState(false); // Sempre começa fechado
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");

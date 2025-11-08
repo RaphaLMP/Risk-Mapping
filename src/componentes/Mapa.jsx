@@ -163,6 +163,7 @@ export default function MapComponent() {
   const [zoom, setZoom] = useState(14);
   const [tempPos, setTempPos] = useState(null);
   const [modal, setModal] = useState(false);
+  const [filtroTipo, setFiltroTipo] = useState(null);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -194,8 +195,9 @@ export default function MapComponent() {
   const remove = (idx) => setMarkers(prev => prev.filter((_, i) => i !== idx));
   const flyTo = (latlng) => mapRef.current?.flyTo(latlng, 16, { duration: 1.5 });
 
-  const risks = findRiskClusters(markers);
-  const clustered = clusterMarkers(markers, zoom, risks);
+  const markersFiltrados = filtroTipo ? markers.filter(m => m.tipo === filtroTipo) : markers;
+  const risks = findRiskClusters(markersFiltrados);
+  const clustered = clusterMarkers(markersFiltrados, zoom, risks);
 
   return (
     <div className="relative w-full h-full">
@@ -246,72 +248,61 @@ export default function MapComponent() {
             <Marker position={pos} zIndexOffset={1000}><Popup>📍 Você está aqui!</Popup></Marker>
           </MapContainer>
 
-          {/* Legenda flutuante no canto superior esquerdo */}
-          <div className="absolute top-40 left-4 z-[1000] bg-white/90 dark:bg-slate-800/90 backdrop-blur-md rounded-xl shadow-lg p-3 max-w-[200px]">
-            <h3 className="text-xs font-bold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-1">
-              <span>📍</span> Tipos de Evento
-            </h3>
-            <div className="space-y-1.5">
-              {Object.keys(CONFIG.icons).map((t) => (
-                <div key={t} className="flex items-center gap-2 text-xs">
-                  <div className="w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: CONFIG.colors[t] }}>
-                    <span className="text-sm">{CONFIG.icons[t]}</span>
-                  </div>
-                  <span className="text-slate-700 dark:text-slate-300 font-medium">{t}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-3 pt-3 border-t border-slate-200 dark:border-slate-600">
-              <div className="flex items-center gap-2 text-xs text-amber-600 dark:text-amber-400">
-                <div className="w-6 h-6 rounded-full flex items-center justify-center bg-amber-400 border-2 border-amber-600">
-                  <span className="text-xs font-bold">!</span>
-                </div>
-                <span className="font-medium">Área de Risco</span>
-              </div>
-            </div>
-          </div>
+          {/* Barra de filtros e eventos na parte inferior */}
+          <div className="absolute bottom-0 left-0 right-0 z-[1000] bg-gradient-to-t from-black/70 to-transparent pt-8 pb-4 px-4">
+            <div className="max-w-6xl mx-auto space-y-3">
+              {/* Filtros horizontais */}
+              <div className="flex flex-wrap items-center justify-center gap-2 px-2">
+                <button
+                  onClick={() => setFiltroTipo(null)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all text-sm font-semibold shadow-lg ${
+                    filtroTipo === null 
+                      ? 'bg-blue-500 text-white scale-105' 
+                      : 'bg-white/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 hover:bg-white dark:hover:bg-slate-700 hover:scale-105'
+                  }`}
+                >
+                  <span>🗺️</span>
+                  <span>Todos</span>
+                  <span className={`px-2 py-0.5 rounded-full text-xs ${
+                    filtroTipo === null ? 'bg-white/20' : 'bg-slate-200 dark:bg-slate-700'
+                  }`}>
+                    {markers.length}
+                  </span>
+                </button>
 
-          {/* Barra de eventos na parte inferior */}
-          <div className="absolute bottom-0 left-0 right-0 z-[1000] bg-gradient-to-t from-black/60 to-transparent pt-8 pb-4 px-4">
-            <div className="max-w-6xl mx-auto">
-              {markers.length > 0 ? (
-                <div className="flex flex-wrap gap-2 justify-center mb-2">
-                  {markers.map((m, i) => (
+                {Object.keys(CONFIG.icons).map((t) => {
+                  const count = markers.filter(m => m.tipo === t).length;
+                  return (
                     <button
-                      key={i}
-                      className="group relative rounded-full pl-3 pr-8 py-2 text-sm font-medium text-white shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-200 flex items-center gap-2"
-                      style={{ backgroundColor: CONFIG.colors[m.tipo] }}
-                      onClick={() => flyTo(m.latlng)}
+                      key={t}
+                      onClick={() => setFiltroTipo(t)}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all text-sm font-semibold shadow-lg ${
+                        filtroTipo === t 
+                          ? 'scale-105 text-white' 
+                          : 'bg-white/90 dark:bg-slate-800/90 text-slate-700 dark:text-slate-300 hover:scale-105'
+                      }`}
+                      style={filtroTipo === t ? { backgroundColor: CONFIG.colors[t] } : {}}
                     >
-                      <span className="text-base">{CONFIG.icons[m.tipo]}</span>
-                      <span className="font-semibold">{m.tipo}</span>
-                      {m.description && <span className="text-xs opacity-80 max-w-[100px] truncate">- {m.description}</span>}
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          remove(i);
-                        }}
-                        className="absolute right-1.5 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center text-white transition-colors"
-                      >
-                        ×
-                      </button>
+                      <span className="text-base">{CONFIG.icons[t]}</span>
+                      <span>{t}</span>
+                      <span className={`px-2 py-0.5 rounded-full text-xs ${
+                        filtroTipo === t ? 'bg-white/20' : 'bg-slate-200 dark:bg-slate-700'
+                      }`}>
+                        {count}
+                      </span>
                     </button>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-center text-white/80 text-sm py-2 font-medium">
-                  Clique no mapa para adicionar eventos
-                </p>
-              )}
+                  );
+                })}
 
-              {risks.length > 0 && (
-                <div className="flex justify-center">
-                  <div className="inline-flex items-center gap-2 bg-amber-500/90 text-amber-950 px-4 py-2 rounded-full text-xs font-bold shadow-lg">
-                    <span className="text-base">⚠️</span>
-                    <span>{risks.length} {risks.length === 1 ? "área de risco detectada" : "áreas de risco detectadas"}</span>
+                {risks.length > 0 && (
+                  <div className="flex items-center gap-2 bg-amber-500/90 text-amber-950 px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                    <span>⚠️</span>
+                    <span>{risks.length} {risks.length === 1 ? "área de risco" : "áreas de risco"}</span>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
+
+
             </div>
           </div>
 
