@@ -143,7 +143,7 @@ export default function EducaCidade() {
 
 
             <div className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[80%] xl:w-[60%] sm:p-5 shadow-lg flex items-center flex-col gap-y-6 lg:gap-y-16 mt-6">
-                <div className="w-full h-full lg:h-full  aspect-video rounded-xl overflow-hidden shadow-lg">
+                <div className="w-full h-full  aspect-video rounded-xl overflow-hidden shadow-lg">
                     <video
                         autoPlay
                         muted
@@ -159,7 +159,7 @@ export default function EducaCidade() {
                 </div>
                 <div className=" h-full grid gap-y-6 lg:gap-y-16 rounded-lg hover:shadow-xl transition-all bg-white dark:bg-[#1b263b] dark:text-white">
                     {alertasInundacao.map((alerta, index) => (
-                        <div className="lg:flex lg:justify-center lg:items-center rounded-2xl dark:border border-[#2da0af] grid gap-y-4 gap-x-8 shadow-2xl p-4 lg:p-6" key={index}>
+                        <div className="lg:flex lg:justify-center lg:items-center rounded-2xl dark:border border-[#2da0af] grid gap-y-8 gap-x-8 shadow-2xl p-4 lg:p-6" key={index}>
                             <div className="grid xl:gap-y-4">
                                 <span className="text-lg xl:text-xl dark:text-gray-100 text-gray-900 font-medium">{alerta.titulo}</span>
                                 <img
