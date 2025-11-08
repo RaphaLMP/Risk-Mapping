@@ -143,7 +143,7 @@ export default function EducaCidade() {
 
 
             <div className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[80%] xl:w-[60%] sm:p-5 shadow-lg flex items-center flex-col gap-y-6 lg:gap-y-16 mt-6">
-                <div className="w-full h-[300px] lg:h-full  aspect-video rounded-xl overflow-hidden shadow-lg">
+                <div className="w-full h-full lg:h-full  aspect-video rounded-xl overflow-hidden shadow-lg">
                     <video
                         autoPlay
                         muted
