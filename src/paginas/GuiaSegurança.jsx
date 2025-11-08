@@ -18,7 +18,7 @@ const getIcon = (tipo) => ({
 }[tipo] || Home);
 
 const InfoCard = ({ icon: Icon, title, color, children }) => (
-  <div className="border-l-4 h-full p-4 sm:p-5 rounded-lg shadow-md hover:shadow-xl transition-all bg-white dark:bg-[#1b263b] dark:text-white" style={{ borderColor: color }}>
+  <div className="border-l-4 h-full p-4 sm:p-5 rounded-lg shadow-md hover:shadow-xl transition-all bg-white dark:bg-[#1b263b] dark:text-gray-100" style={{ borderColor: color }}>
     <div className="flex items-center gap-2 sm:gap-3 mb-3">
       <div className="p-1.5 sm:p-2 rounded-lg" style={{ backgroundColor: `${color}20` }}>
         <Icon size={20} className="sm:w-6 sm:h-6" color={color} />
@@ -102,7 +102,7 @@ const GuiaAlagamento = () => {
   const data = { hospitais: shelters.hosp, policia: shelters.pol, igrejas: shelters.igr, escolas: shelters.esc }[tab];
 
   return (
-    <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-[#0d1b2a] dark:to-[#1e293b] text-[#0d1b2a] dark:text-white p-4 sm:p-8 md:p-12">
+    <div className="flex flex-col items-center min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-[#0d1b2a] dark:to-[#1e293b] text-[#0d1b2a] dark:text-gray-100 p-4 sm:p-8 md:p-12">
       <div className="w-[90%] lg:w-[70%] xl:w-[70%]">
         <div className="flex flex-col xl:flex-row grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mt-4 sm:mt-6 lg:mt-8">
           <div className="w-full">

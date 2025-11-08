@@ -138,7 +138,7 @@ const Contato = () => {
       {/* Seção do Time */}
       <section className="bg-blue-50 dark:bg-[#1e293b] py-24 px-4 mx-auto max-w-screen-xl transition-colors duration-300">
         <div className="text-center mb-20">
-          <h2 className="mb-8 text-4xl lg:text-5xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+          <h2 className="mb-8 text-4xl lg:text-5xl tracking-tight font-extrabold text-gray-900 dark:text-gray-100">
             Nosso Time
           </h2>
         </div>
@@ -155,7 +155,7 @@ const Contato = () => {
                   onError={handleImageError}
                 />
               </div>
-              <h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              <h3 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-gray-100">
                 {member.name}
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">{member.role}</p>
@@ -194,7 +194,7 @@ const Contato = () => {
       <section className="bg-blue-50 dark:bg-[#1e293b] py-24 px-4 transition-colors duration-300">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
+            <h2 className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-6">
               Envie sua Mensagem
             </h2>
             <p className="text-xl text-gray-600 dark:text-gray-400 leading-relaxed">
@@ -232,7 +232,7 @@ const Contato = () => {
                     onChange={handleInputChange}
                     required
                     maxLength={100}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 ${
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 ${
                       errors.nome ? 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'
                     }`}
                     placeholder="Seu nome completo"
@@ -259,7 +259,7 @@ const Contato = () => {
                     onChange={handleInputChange}
                     required
                     maxLength={100}
-                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 ${
+                    className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 ${
                       errors.email ? 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'
                     }`}
                     placeholder="seuemail@exemplo.com"
@@ -288,7 +288,7 @@ const Contato = () => {
                   onChange={handleInputChange}
                   required
                   maxLength={200}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 ${
                     errors.assunto ? 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'
                   }`}
                   placeholder="Sobre o que você gostaria de falar?"
@@ -316,7 +316,7 @@ const Contato = () => {
                   required
                   rows={6}
                   maxLength={1000}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 ${
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors resize-vertical bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 ${
                     errors.mensagem ? 'border-red-300 dark:border-red-600 bg-red-50 dark:bg-red-900/20' : 'border-gray-300 dark:border-gray-600'
                   }`}
                   placeholder="Escreva sua mensagem aqui..."
@@ -358,11 +358,11 @@ const Contato = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-blue-400 dark:disabled:bg-blue-800 disabled:cursor-not-allowed text-white font-medium py-4 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
+                className="w-full bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 disabled:bg-blue-400 dark:disabled:bg-blue-800 disabled:cursor-not-allowed text-gray-100 font-medium py-4 px-6 rounded-lg transition-all duration-200 flex items-center justify-center space-x-2 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
               >
                 {isSubmitting ? (
                   <>
-                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-100" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
@@ -388,7 +388,7 @@ const Contato = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-3 text-lg">E-mail</h3>
+              <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3 text-lg">E-mail</h3>
               <p className="text-gray-600 dark:text-gray-400">contato@riskmapping.com</p>
             </div>
 
@@ -398,7 +398,7 @@ const Contato = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-3 text-lg">Tempo de Resposta</h3>
+              <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3 text-lg">Tempo de Resposta</h3>
               <p className="text-gray-600 dark:text-gray-400">Até 24 horas</p>
             </div>
 
@@ -409,7 +409,7 @@ const Contato = () => {
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
               </div>
-              <h3 className="font-semibold text-gray-900 dark:text-white mb-3 text-lg">Localização</h3>
+              <h3 className="font-semibold text-gray-900 dark:text-gray-100 mb-3 text-lg">Localização</h3>
               <p className="text-gray-600 dark:text-gray-400">São Paulo, Brasil</p>
             </div>
           </div>

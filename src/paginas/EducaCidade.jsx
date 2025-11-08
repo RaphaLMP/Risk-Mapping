@@ -4,6 +4,7 @@ import img2 from "../img/pegar_doc.png"
 import img3 from "../img/local_seguro.png"
 import img4 from "../img/nubi_professor.png"
 import img5 from "../img/familia_reunida.png"
+import jogo from "../img/jogo_educativo.mp4"
 import { useEffect, useState } from "react"
 
 export default function EducaCidade() {
@@ -38,7 +39,7 @@ export default function EducaCidade() {
             imagemSrc: img,
             dicas: [
                 "Mantenha a calma. A informação é poder!",
-                'O alerta de **"HIGH FLOOD RISK"** (Alto Risco de Inundação) indica que sua área pode ser afetada em breve.',
+                'O alerta de "Alto Risco de Inundação" indica que sua área pode ser afetada em breve.',
                 "Confirme sua localização e verifique no mapa do Risk Mapping os **abrigos e rotas de fuga seguros** mais próximos."
             ]
         },
@@ -48,16 +49,17 @@ export default function EducaCidade() {
             dicas: [
                 "Observe o nível da água na rua. O sinal de perigo indica que o risco é real e imediato.",
                 "Não se arrisque atravessando áreas já alagadas. A água pode esconder buracos, objetos perigosos e a força da correnteza pode derrubar uma pessoa.",
-                "Desligue a **energia elétrica** (o disjuntor principal) da sua casa se a água começar a invadir o imóvel. Isso evita curtos-circuitos e choques elétricos fatais."
+                "Desligue a energia elétrica (o disjuntor principal) da sua casa se a água começar a invadir o imóvel. Isso evita curtos-circuitos e choques elétricos fatais.",
+                "Feche todas as portas, janelas e frestas da sua casa com panos ou fitas adesivas."
             ]
         },
         {
-            titulo: "Prepare-se para Deixar o Local",
+            titulo: "Prepare-se para Deixar o Local (Caso necessário)",
             imagemSrc: img2,
             dicas: [
-                "Pegue o seu **'Kit de Emergência'**: Este kit deve estar em um local alto e de fácil acesso (como a parte superior de um armário).",
-                "**Documentos são prioridade**: Guarde em um saco plástico à prova d'água seus documentos pessoais (identidade, certidões, carteira de vacinação, etc.).",
-                "**Itens Essenciais**: Inclua água potável, alimentos não perecíveis (enlatados), lanterna, rádio à pilha e medicamentos de uso contínuo."
+                "Pegue o seu 'Kit de Emergência': Este kit deve estar em um local alto e de fácil acesso (como a parte superior de um armário).",
+                "Documentos são prioridade: Guarde em um saco plástico à prova d'água seus documentos pessoais (identidade, certidões, carteira de vacinação, etc.).",
+                "Itens Essenciais: Inclua água potável, alimentos não perecíveis (enlatados), lanterna, rádio à pilha e medicamentos de uso contínuo."
             ]
         },
         {
@@ -66,8 +68,8 @@ export default function EducaCidade() {
             dicas: [
                 "Use o Risk Mapping para seguir as rotas seguras até os pontos de abrigo indicados.",
                 "Caminhe em áreas mais altas e evite margens de rios, canais e encostas(risco de deslizamento).",
-                "Comunique - se: Se for possível, avise familiares ou vizinhos para onde você está indo.",
-                "Lembre - se: A sua vida e a de sua família são o bem mais importante.Os bens materiais podem ser recuperados, a vida não!"
+                "Comunique-se: Se for possível, avise familiares ou vizinhos para onde você está indo.",
+                "Lembre-se: A sua vida e a de sua família são o bem mais importante.Os bens materiais podem ser recuperados, a vida não!"
             ]
         },
         {
@@ -76,7 +78,7 @@ export default function EducaCidade() {
             dicas: [
                 "Ajude sua comunidade: Ofereça apoio a vizinhos, especialmente idosos, crianças e pessoas com mobilidade reduzida, que podem precisar de ajuda extra para se preparar ou se deslocar.",
                 "Mantenha contato: Troque informações com seus vizinhos sobre a situação e as rotas de segurança.",
-                "Prepare - se em grupo: Discutam em família e com a comunidade um plano de emergência, definindo pontos de encontro e formas de comunicação.",
+                "Prepare-se em grupo: Discutam em família e com a comunidade um plano de emergência, definindo pontos de encontro e formas de comunicação.",
                 "O Nubi está aqui para lembrar: Em momentos de desafio, a solidariedade e a colaboração fazem toda a diferença.Cuidar uns dos outros é a melhor forma de proteger a todos!"
             ]
         }
@@ -91,7 +93,7 @@ export default function EducaCidade() {
     }, []);
 
     return (
-        <div className="flex items-center flex-col bg-center w-full dark:bg-[#1e293b]">
+        <div className="flex items-center flex-col bg-center w-full bg-blue-50 dark:bg-[#1e293b]">
             <div className="w-full h-[250px] lg:h-[300px] flex flex-col items-center justify-center bg-gradient-to-r from-[#2da0af] to-blue-500 dark:bg-[#22415A]">
                 <div className="flex w-[90%] sm:w-[70%] md:w-[60%] xl:w-[40%] lg:justify-center flex-col items-center lg:gap-y-2">
                     <div className="w-full md:w-full flex items-center">
@@ -141,16 +143,19 @@ export default function EducaCidade() {
 
 
             <div className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[80%] xl:w-[60%] sm:p-5 shadow-lg flex items-center flex-col gap-y-6 lg:gap-y-16 mt-6">
-                <div className="w-full h-[300px] lg:h-[500px]  aspect-video rounded-xl overflow-hidden shadow-lg">
-                    <iframe
+                <div className="w-full h-[300px] lg:h-full  aspect-video rounded-xl overflow-hidden shadow-lg">
+                    <video
+                        autoPlay
+                        muted
+                        playsInline
+                        loop
                         width="100%"
                         height="100%"
-                        src="https://www.youtube.com/embed/aIR6khgsc3A"
+                        src={jogo}
                         title="Entenda os riscos das enchentes"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    ></iframe>
+                    >
+                    </video>
+
                 </div>
                 <div className=" h-full grid gap-y-6 lg:gap-y-16 rounded-lg hover:shadow-xl transition-all bg-white dark:bg-[#1b263b] dark:text-white">
                     {alertasInundacao.map((alerta, index) => (
@@ -158,7 +163,7 @@ export default function EducaCidade() {
                             <div className="grid xl:gap-y-4">
                                 <span className="text-lg xl:text-xl dark:text-gray-100 text-gray-900 font-medium">{alerta.titulo}</span>
                                 <img
-                                    className="h-[230px] sm:h-[300px] lg:h-[400px] w-[600px]"
+                                    className="h-full w-[600px]"
                                     src={alerta.imagemSrc}
                                     alt={`Imagem de alerta sobre ${alerta.titulo}`}
                                 />
@@ -172,6 +177,17 @@ export default function EducaCidade() {
                             </div>
                         </div>
                     ))}
+                </div>
+                <div className="w-full h-[300px] lg:h-[500px]  aspect-video rounded-xl overflow-hidden shadow-lg mb-8">
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        src="https://www.youtube.com/embed/aIR6khgsc3A"
+                        title="Entenda os riscos das enchentes"
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    ></iframe>
                 </div>
             </div>
         </div >
