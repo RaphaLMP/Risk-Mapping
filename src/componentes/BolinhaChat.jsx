@@ -7,7 +7,6 @@ export default function ChatPopup() {
     { sender: "bot", text: "👋 Olá! Como posso ajudar hoje?" }
   ]);
 
-  // Mensagens rápidas (agora em estado para permitir remover após clique)
   const [quickMessages, setQuickMessages] = useState([
     { text: "Como funciona o mapa?", response: "Nosso mapa mostra áreas com risco de enchentes, incêndios e tempestades, utilizando dados oficiais e alertas da Defesa Civil." },
     { text: "Tem alerta na minha região?", response: "Use a busca ou aproxime o mapa para sua cidade. Se houver alerta ativo, ele aparecerá destacado." },
@@ -17,13 +16,11 @@ export default function ChatPopup() {
   ]);
 
   const sendMessage = (msg, autoResponse) => {
-    // Adiciona a mensagem do usuário
+
     setMessages(prev => [...prev, { sender: "user", text: msg }]);
 
-    // Remove a opção clicada da lista
     setQuickMessages(prev => prev.filter(q => q.text !== msg));
 
-    // Resposta automática
     setTimeout(() => {
       setMessages(prev => [...prev, { sender: "bot", text: autoResponse }]);
     }, 500);
@@ -34,14 +31,14 @@ export default function ChatPopup() {
       {/* Botão flutuante */}
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-lg text-2xl flex items-center justify-center"
+        className="fixed bottom-42 sm:bottom-6 right-6 bg-blue-600 hover:bg-blue-700 text-white w-14 h-14 rounded-full shadow-lg text-2xl flex items-center justify-center"
       >
         💬
       </button>
 
       {/* Popup */}
       {open && (
-        <div className="fixed bottom-6 right-6 w-80 sm:w-96 h-[420px] flex flex-col rounded-2xl shadow-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#0F172A] overflow-hidden">
+        <div className="fixed bottom-42 sm:bottom-6 right-6 w-80 sm:w-96 h-[420px] flex flex-col rounded-2xl shadow-2xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-[#0F172A] overflow-hidden">
 
           {/* Header */}
           <div className="px-5 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-[#1E293B] flex justify-between items-center">
