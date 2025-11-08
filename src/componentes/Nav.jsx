@@ -82,8 +82,8 @@ export default function Nav() {
           onClose={setMobileMenuOpen}
           className="lg:hidden"
         >
-          <div className="fixed inset-0 z-50" />
-          <DialogPanel className="fixed inset-y-0 right-0 z-50 w-full overflow-y-auto bg-gray-100 dark:bg-gray-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-100/10 transition-colors duration-300">
+          <div className="fixed inset-0 z-[1100] bg-black/30 backdrop-blur-sm" />
+          <DialogPanel className="fixed inset-y-0 right-0 z-[1101] w-full overflow-y-auto bg-gray-100 dark:bg-gray-900 p-6 sm:max-w-sm sm:ring-1 sm:ring-gray-100/10 transition-colors duration-300">
             <div className="flex items-center justify-between">
               <Link to="/" className="-m-1.5 p-1.5">
                 <span className="sr-only">Risk Map</span>
@@ -114,7 +114,7 @@ export default function Nav() {
                     </Link>
                   ))}
                 </div>
-                <div>
+                <div className="py-6">
                   <ToggleTheme />
                 </div>
                 <div className="py-6 invisible">
