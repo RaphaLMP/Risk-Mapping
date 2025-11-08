@@ -163,7 +163,7 @@ export default function EducaCidade() {
                             <div className="grid xl:gap-y-4">
                                 <span className="text-lg xl:text-xl dark:text-gray-100 text-gray-900 font-medium">{alerta.titulo}</span>
                                 <img
-                                    className="h-[300px] sm:h-full w-[600px]"
+                                    className="h-[100%] sm:h-full w-[600px]"
                                     src={alerta.imagemSrc}
                                     alt={`Imagem de alerta sobre ${alerta.titulo}`}
                                 />
