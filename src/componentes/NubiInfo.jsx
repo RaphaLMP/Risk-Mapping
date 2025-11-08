@@ -44,7 +44,7 @@ export default function NubiInfo() {
       {!isCardOpen && (
         <button
           onClick={() => setIsCardOpen(true)}
-          className="lg:hidden fixed top-40 right-4 z-[1050] flex items-center gap-2 bg-[#5e90bbab] dark:bg-[#22415A]/90 backdrop-blur-md rounded-full shadow-2xl px-4 py-2 text-white font-semibold"
+          className="lg:hidden fixed top-32 right-4 z-[1050] flex items-center gap-2 bg-[#5e90bbab] dark:bg-[#22415A]/90 backdrop-blur-md rounded-full shadow-2xl px-4 py-2 text-white font-semibold"
         >
           <img className="h-[30px] w-[30px]" src={nubiImage} alt="Nubi" />
           <span className="text-xs">Info</span>
@@ -89,7 +89,7 @@ export default function NubiInfo() {
       )}
 
       {isCardOpen && (
-        <div className="lg:hidden fixed top-24 right-4 z-[1050] max-w-[calc(100vw-2rem)]">
+        <div className="lg:hidden fixed top-32 right-4 z-[1050] max-w-[calc(100vw-2rem)]">
           <div className={`${cardClasses} rounded-2xl p-4 ${animateCard ? "opacity-100 translate-y-0 scale-100" : "opacity-0 -translate-y-10 scale-90"}`}>
             <button
               onClick={() => setIsCardOpen(false)}
