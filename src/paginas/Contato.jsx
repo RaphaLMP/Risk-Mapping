@@ -21,21 +21,21 @@ const Contato = () => {
   const teamMembersData = useMemo(() => [
     {
       name: 'Beatriz Claudino',
-      role: 'Front End, Melhorias',
+      role: 'Front End, Melhorias, Design',
       imageSrc: beatrizImg,
       linkedinUrl: 'linkedin.com/in/beatrizclaudino1',
       githubUrl: 'https://github.com/BeatrizClaudino',
     },
     {
       name: 'Daniel Costa',
-      role: 'Front End, Configurações',
+      role: 'Front End, Configurações, API',
       imageSrc: danielImg,
       linkedinUrl: 'linkedin.com/in/daniel-costa-1b3375232',
       githubUrl: 'https://github.com/Ciberbott',
     },
     {
       name: 'Raphael Martins',
-      role: 'Front End, Video e Projeto',
+      role: 'Front End, Projeto, API',
       imageSrc: raphaelImg,
       linkedinUrl: 'linkedin.com/in/raphael-martins-12761921b',
       githubUrl: 'https://github.com/RaphaLMP',

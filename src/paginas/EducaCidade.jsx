@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import img from "../img/alerta_celular.png"
 import img1 from "../img/coferir_chuva.png"
 import img2 from "../img/pegar_doc.png"
@@ -5,7 +6,6 @@ import img3 from "../img/local_seguro.png"
 import img4 from "../img/nubi_professor.png"
 import img5 from "../img/familia_reunida.png"
 import jogo from "../img/jogo_educativo.mp4"
-import { useEffect, useState } from "react"
 
 export default function EducaCidade() {
     const [animateNubi, setAnimateNubi] = useState(false);
@@ -94,6 +94,7 @@ export default function EducaCidade() {
 
     return (
         <div className="flex items-center flex-col bg-center w-full bg-blue-50 dark:bg-[#1e293b]">
+            {/* Header com Nubi */}
             <div className="w-full h-[250px] lg:h-[300px] flex flex-col items-center justify-center bg-gradient-to-r from-[#2da0af] to-blue-500 dark:bg-[#22415A]">
                 <div className="flex w-[90%] sm:w-[70%] md:w-[60%] xl:w-[40%] lg:justify-center flex-col items-center lg:gap-y-2">
                     <div className="w-full md:w-full flex items-center">
@@ -115,25 +116,25 @@ export default function EducaCidade() {
                     </div>
                 </div>
             </div>
+
+            {/* Onda decorativa */}
             <svg
                 viewBox="0 0 1889 200"
                 xmlns="http://www.w3.org/2000/svg"
                 className="w-full"
             >
                 <defs>
-                    {/* Gradiente para modo claro */}
                     <linearGradient id="darkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#2da0af" /> {/* from-green-400 */}
-                        <stop offset="100%" stopColor="#3b82f6" /> {/* to-blue-500 */}
+                        <stop offset="0%" stopColor="#2da0af" />
+                        <stop offset="100%" stopColor="#3b82f6" />
                     </linearGradient>
 
                     <linearGradient id="lightGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#2da0af" /> {/* from-green-400 */}
-                        <stop offset="100%" stopColor="#3b82f6" /> {/* to-blue-500 */}
+                        <stop offset="0%" stopColor="#2da0af" />
+                        <stop offset="100%" stopColor="#3b82f6" />
                     </linearGradient>
                 </defs>
 
-                {/* Caminho da onda */}
                 <path
                     d="M0 51 C462 51 462 153 924 153 C1414 153 1414 68 1905 68 L1905 0 L0 0 Z"
                     fill="url(#lightGradient)"
@@ -141,34 +142,53 @@ export default function EducaCidade() {
                 />
             </svg>
 
-
-            <div className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[80%] xl:w-[60%] sm:p-5 shadow-lg flex items-center flex-col gap-y-6 lg:gap-y-16 mt-6">
-                <div className="w-full h-full  aspect-video rounded-xl overflow-hidden shadow-lg">
-                    <video
-                        autoPlay
-                        muted
-                        playsInline
-                        loop
-                        width="100%"
-                        height="100%"
-                        src={jogo}
-                        title="Entenda os riscos das enchentes"
-                    >
-                    </video>
-
+            {/* Seção de Conteúdo Educativo */}
+            <div className="w-[90%] sm:w-[80%] md:w-[70%] lg:w-[80%] xl:w-[60%] sm:p-5 flex items-center flex-col gap-y-6 lg:gap-y-16 mt-6">
+                
+                {/* Vídeo educativo do YouTube */}
+                <div className="w-full">
+                    <div className="text-center mb-6">
+                        <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+                            📚 Conteúdo Educativo
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Aprenda sobre os riscos das enchentes e como se proteger
+                        </p>
+                    </div>
+                    <div className="w-full h-full aspect-video rounded-xl overflow-hidden shadow-2xl">
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            src="https://www.youtube.com/embed/aIR6khgsc3A"
+                            title="Entenda os riscos das enchentes"
+                            frameBorder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
+                    </div>
                 </div>
-                <div className=" h-full grid gap-y-6 lg:gap-y-16 rounded-lg hover:shadow-xl transition-all bg-white dark:bg-[#1b263b] dark:text-white">
+
+                {/* Guia de alertas de inundação */}
+                <div className="w-full h-full grid gap-y-6 lg:gap-y-16 rounded-lg hover:shadow-xl transition-all bg-white dark:bg-[#1b263b] dark:text-white p-6">
+                    <div className="text-center mb-4">
+                        <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+                            🚨 Guia de Emergência
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Passos essenciais para se proteger durante uma enchente
+                        </p>
+                    </div>
                     {alertasInundacao.map((alerta, index) => (
-                        <div className="lg:flex lg:justify-center lg:items-center rounded-2xl dark:border border-[#2da0af] grid gap-y-8 gap-x-8 shadow-2xl p-4 lg:p-6" key={index}>
-                            <div className="grid xl:gap-y-4">
-                                <span className="text-lg xl:text-xl dark:text-gray-100 text-gray-900 font-medium">{alerta.titulo}</span>
+                        <div className="lg:flex lg:justify-center lg:items-center rounded-2xl dark:border border-[#2da0af] grid gap-y-8 gap-x-8 shadow-2xl p-6 lg:p-8 bg-gradient-to-br from-white to-blue-50 dark:from-[#1b263b] dark:to-[#22415A]" key={index}>
+                            <div className="flex flex-col items-center justify-center xl:gap-y-4 w-full lg:w-[55%]">
+                                <span className="text-lg xl:text-xl dark:text-gray-100 text-gray-900 font-medium mb-4 text-center">{alerta.titulo}</span>
                                 <img
-                                    className="h-[280px] sm:h-full w-[600px]"
+                                    className="w-full h-auto min-h-[180px] sm:min-h-[400px] md:min-h-[480px] lg:min-h-[100px] object-contain rounded-3xl shadow-md"
                                     src={alerta.imagemSrc}
                                     alt={`Imagem de alerta sobre ${alerta.titulo}`}
                                 />
                             </div>
-                            <div className="lg:w-1/3">
+                            <div className="lg:w-[45%] flex items-center">
                                 <ul className="list-disc pl-6 grid gap-y-4">
                                     {alerta.dicas.map((dica, dicaIndex) => (
                                         <li className="bg-[#5e90bb11] dark:bg-[#31506b59] dark:text-gray-100 p-2 xl:p-4 rounded-md text-gray-900" key={dicaIndex} dangerouslySetInnerHTML={{ __html: dica }}></li>
@@ -178,18 +198,42 @@ export default function EducaCidade() {
                         </div>
                     ))}
                 </div>
-                <div className="w-full h-[300px] lg:h-[500px]  aspect-video rounded-xl overflow-hidden shadow-lg mb-8">
-                    <iframe
-                        width="100%"
-                        height="100%"
-                        src="https://www.youtube.com/embed/aIR6khgsc3A"
-                        title="Entenda os riscos das enchentes"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                    ></iframe>
+
+                {/* Divisor visual */}
+                <div className="w-full flex items-center gap-4 my-8">
+                    <div className="flex-1 h-[2px] bg-gradient-to-r from-transparent via-[#2da0af] to-transparent"></div>
+                    <div className="px-6 py-3 bg-gradient-to-r from-[#2da0af] to-blue-500 rounded-full shadow-lg">
+                        <span className="text-white font-bold text-lg">🎮</span>
+                    </div>
+                    <div className="flex-1 h-[2px] bg-gradient-to-r from-transparent via-[#2da0af] to-transparent"></div>
                 </div>
+
+                {/* Seção de Jogo Educativo */}
+                <div className="w-full mb-8">
+                    <div className="text-center mb-6">
+                        <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-2">
+                            🎮 Jogo Educativo
+                        </h2>
+                        <p className="text-gray-600 dark:text-gray-300">
+                            Aprenda brincando! Teste seus conhecimentos sobre prevenção de enchentes
+                        </p>
+                    </div>
+                    <div className="w-full h-full aspect-video rounded-xl overflow-hidden shadow-2xl">
+                        <video
+                            autoPlay
+                            muted
+                            playsInline
+                            loop
+                            width="100%"
+                            height="100%"
+                            src={jogo}
+                            title="Jogo educativo"
+                        >
+                        </video>
+                    </div>
+                </div>
+
             </div>
-        </div >
+        </div>
     );
 }
